@@ -1,0 +1,182 @@
+% !TEX program = xelatex
+% ============================================================
+%  BAO CAO DO AN TOT NGHIEP - KHUNG MAIN LIEN KET (TIENG VIET)
+%  Bien dich: XeLaTeX
+%  Cau truc: Final_Project_Report_PDCMS
+% ============================================================
+\documentclass[12pt, a4paper]{report}
+
+% -- Goi XeLaTeX ---------------------------------------------
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setmainlanguage{vietnamese}
+\setotherlanguage{english}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Courier New}
+
+% -- Goi tien ich --------------------------------------------
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{xcolor}
+\usepackage{setspace}
+\usepackage{parskip}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{amsmath}
+
+% -- Le trang ------------------------------------------------
+\geometry{top=2.5cm, bottom=2.5cm, left=3cm, right=2cm}
+
+% -- So La Ma cho Chuong (chi trong tieu de, khong anh huong danh so bang/hinh) ----
+\renewcommand{\thechapter}{\Roman{chapter}}
+% -- Danh so section/subsection theo chuong (vd: 3.1, 3.1.1) ---
+\renewcommand{\thesection}{\arabic{chapter}.\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+% -- Danh so Bang/Hinh/Cong thuc dung so Arabi (vd: Bang 3.1, khong phai III.1) ---
+\renewcommand{\thetable}{\arabic{chapter}.\arabic{table}}
+\renewcommand{\thefigure}{\arabic{chapter}.\arabic{figure}}
+\renewcommand{\theequation}{\arabic{chapter}.\arabic{equation}}
+
+% -- Hyperlink -----------------------------------------------
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  citecolor=blue,
+}
+
+% -- Dau trang / Chan trang ----------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{15pt}
+\fancyhead[L]{\small\leftmark}
+\fancyhead[R]{\small Báo Cáo Môn Công Nghệ Phần Mềm}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% -- Dinh dang tieu de Chuong --------------------------------
+\titleformat{\chapter}[block]
+  {\normalfont\Large\bfseries}{Phần \thechapter.}{0.5em}{}
+\titlespacing*{\chapter}{0pt}{20pt}{15pt}
+
+% -- Gian dong -----------------------------------------------
+\onehalfspacing
+
+% ============================================================
+\begin{document}
+
+% ============================================================
+% TRANG BIA
+% ============================================================
+\begin{titlepage}
+  \centering
+  \vspace*{1cm}
+  {\large\bfseries BỘ XÂY DỰNG}\\[0.3cm]
+  {\large\bfseries TRƯỜNG ĐẠI HỌC GIAO THÔNG VẬN TẢI TP.HCM}\\[0.3cm]
+  {\large\bfseries VIỆN ĐÀO TẠO CHẤT LƯỢNG CAO}\\[1.5cm]
+  % \includegraphics[width=3cm]{logo.png}\\[1cm]
+  \rule{\linewidth}{1.5pt}\\[0.3cm]
+  {\LARGE\bfseries Nền tảng quản lý giao hàng bằng drone tích hợp AI}\\[0.3cm]
+  {\large BÁO CÁO MÔN CÔNG NGHỆ PHẦN MỀM}\\[0.3cm]
+  \rule{\linewidth}{1.5pt}\\[1.5cm]
+  \begin{tabular}{ll}
+    \textbf{Loại phần mềm:} & Ứng dụng Web \\
+  \end{tabular}\\[1.5cm]
+  \textbf{Thành viên nhóm}\\[0.5cm]
+  \begin{tabular}{ll}
+    Nguyễn Thùy Trang & --- 058306006308 \\
+    Kiên Văn Trực & --- 079206025442 \\
+    Đặng Thị Mỹ Nhân & --- 052306014709 \\
+    Nguyễn Minh Đăng & --- 095207004710 \\
+    Đan Ngọc Sơn & --- 079206000343 \\
+  \end{tabular}\\[1cm]
+  \textbf{Giảng viên hướng dẫn}\\[0.3cm]
+  Nguyễn Văn Chiến \\[0.5cm]
+
+  \vfill
+  {\large Hồ Chí Minh, tháng \ldots{8} năm \ldots{2026}}
+\end{titlepage}
+
+% ============================================================
+% MUC LUC
+% ============================================================
+\pagenumbering{roman}
+\tableofcontents
+\clearpage
+% \listoffigures   % Bo comment neu can danh sach hinh
+% \listoftables    % Bo comment neu can danh sach bang
+\clearpage
+
+% ============================================================
+% NOI DUNG CHINH - LIEN KET CAC FILE PHU TRONG THU MUC chapters/
+% ============================================================
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% 1. Loi cam on
+\input{chapters/loicamon.tex}
+\clearpage
+
+% 2. Dinh nghia & viet tat
+\input{chapters/dinhnghia.tex}
+\clearpage
+
+% PHAN I: GIOI THIEU DU AN
+\input{chapters/phan1.tex}
+\clearpage
+
+% PHAN II: KE HOACH QUAN LY
+\input{chapters/phan2.tex}
+\clearpage
+
+% PHAN III: DAC TA YEU CAU (SRS)
+\input{chapters/phan3.tex}
+\clearpage
+
+% PHAN IV: MO TA THIET KE (SDD)
+\input{chapters/phan4.tex}
+\clearpage
+
+% PHAN V: TAI LIEU KIEM THU
+\input{chapters/phan5.tex}
+\clearpage
+
+% PHAN VI: GOI PHAT HANH & HUONG DAN
+\input{chapters/phan6.tex}
+\clearpage
+
+% ============================================================
+%  TAI LIEU THAM KHAO
+% ============================================================
+\begin{thebibliography}{99}
+  \addcontentsline{toc}{chapter}{Tài Liệu Tham Khảo}
+
+  \bibitem{ref1}
+  Tên tác giả.
+  \textit{Tên tài liệu / Sách tham khảo}.
+  Nhà xuất bản, Năm xuất bản.
+
+  \bibitem{ref2}
+  Tên tổ chức / Tác giả.
+  \textit{Tên tài liệu kỹ thuật}.
+  Truy cập ngày dd/mm/yyyy, tại \url{https://example.com}.
+
+  \bibitem{ieee830}
+  IEEE.
+  \textit{IEEE Std 830-1998 -- Recommended Practice for Software Requirements Specifications}.
+  IEEE Standards Association, 1998.
+
+\end{thebibliography}
+
+\end{document}

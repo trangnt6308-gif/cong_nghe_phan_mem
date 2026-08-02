@@ -27,3 +27,17 @@ bld/
 ## OS generated files
 .DS_Store
 Thumbs.db
+
+## LaTeX auxiliary files
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.pdfsync
+*.blg
+*.bbl
+*.pdf
+
