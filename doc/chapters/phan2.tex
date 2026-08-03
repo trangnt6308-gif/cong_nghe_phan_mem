@@ -1,0 +1,201 @@
+\chapter{Kế Hoạch Quản Lý Dự Án}
+
+\section{Tổng Quan}
+
+\subsection{Phạm Vi và Ước Lượng}
+
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\textwidth}{|l|X|}
+    \hline
+    \textbf{Hạng mục} & \textbf{Nội dung} \\
+    \hline
+    Thời gian thực hiện & 8 tuần (từ [23/07/2026] đến [20/09/2026]) \\ \hline
+    Số lượng thành viên & 5 người \\ \hline
+    Phương pháp phát triển & Scrum - 6 Sprint, 1 tuần/Sprint \\ \hline
+    Số module chính & 5 module (Customer \& Order, Package \& Workflow, Landing Station, Tracking \& Confirmation, Dashboard \& AI) \\ \hline
+    Nền tảng triển khai & Web (ReactJS), Backend API (Node.js/Express), Supabase (DB \& Auth), LLM API (Groq API) \\ \hline
+    Tổng số task ước lượng & \textasciitilde{}40 task (chi tiết theo từng Sprint) \\
+    \hline
+  \end{tabularx}
+  \caption{Phạm vi và Ước lượng dự án}
+  \label{tab:scope_estimation}
+\end{table}
+
+\subsection{Mục Tiêu Dự Án}
+
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\textwidth}{|c|X|X|}
+    \hline
+    \textbf{STT} & \textbf{Mục tiêu} & \textbf{Tiêu chí đo lường (đạt khi nào)} \\
+    \hline
+    1 & Xây dựng hệ thống quản lý giao hàng bằng drone hoàn chỉnh, hỗ trợ đủ 5 module nghiệp vụ & Cả 5 module chạy end-to-end, demo được luồng từ tạo đơn $\rightarrow$ xác nhận giao hàng \\ \hline
+    2 & Tích hợp dịch vụ AI hỗ trợ vận hành (ETA, tóm tắt, chatbot) & Chatbot và tính năng ETA hoạt động, phản hồi hợp lý khi test \\ \hline
+    3 & Đảm bảo ứng dụng Web đáp ứng tốt trên cả máy tính và điện thoại & Giao diện hiển thị và thao tác ổn trên cả desktop lẫn mobile browser  \\ \hline
+    4 & Hoàn thiện bộ tài liệu SRS, thiết kế, kiểm thử, hướng dẫn sử dụng & Đủ 6 chương báo cáo theo mục lục đã thống nhất \\ \hline
+    5 & Đảm bảo đúng tiến độ 8 tuần, không trễ deadline nộp bài & Hoàn thành demo + nộp báo cáo đúng ngày quy định \\
+    \hline
+  \end{tabularx}
+  \caption{Mục tiêu dự án}
+  \label{tab:objectives}
+\end{table}
+
+\subsection{Rủi Ro Dự Án}
+
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\textwidth}{|c|X|c|c|X|}
+    \hline
+    \textbf{STT} & \textbf{Rủi ro} & \textbf{Khả năng xảy ra} & \textbf{Mức độ ảnh hưởng} & \textbf{Biện pháp giảm thiểu} \\
+    \hline
+    1 & Thành viên chưa quen công nghệ mới (Supabase, LLM API) & Cao & Cao & Dành đầu Sprint 1 để khảo sát/học nhanh, phân công người có kinh nghiệm hỗ trợ \\ \hline
+    2 & Trễ tiến độ do khối lượng công việc lớn & Cao & Cao & Ưu tiên use case Tầng 1 (theo Phần D kế hoạch), cắt giảm tính năng phụ nếu cần \\ \hline
+    3 & Xung đột code khi nhiều người cùng sửa 1 module & Trung bình & Trung bình & Áp dụng Git branching strategy, bắt buộc Pull Request + review \\ \hline
+    4 & Giới hạn free tier của Supabase/LLM API không đủ khi demo & Thấp & Trung bình & Kiểm tra giới hạn từ Sprint 1, có phương án dự phòng (tài khoản backup) \\ \hline
+    5 & Thành viên vắng mặt/ốm giữa deadline gấp & Thấp & Cao & Daily standup để phát hiện sớm, chia sẻ kiến thức chéo giữa các thành viên \\ \hline
+    6 & Thiếu thời gian viết tài liệu do dồn vào cuối kỳ & Cao & Cao & Viết tài liệu song song mỗi Sprint (nguyên tắc đã thống nhất), không dồn cuối \\
+    \hline
+  \end{tabularx}
+  \caption{Bảng rủi ro dự án}
+  \label{tab:risks}
+\end{table}
+
+\section{Phương Pháp Quản Lý}
+
+\subsection{Quy Trình Dự Án}
+
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\textwidth}{|l|l|X|}
+    \hline
+    \textbf{Hoạt động} & \textbf{Tần suất} & \textbf{Nội dung} \\
+    \hline
+    Sprint Planning & Đầu mỗi Sprint (Thứ 6) & Chốt mục tiêu Sprint, phân công task \\ \hline
+    Daily Standup & Hàng ngày, 10-15 phút & Mỗi người báo cáo: hôm qua làm gì / hôm nay làm gì / có vướng gì không \\ \hline
+    Sprint Review & Cuối mỗi Sprint (Thứ 3 /Thứ 4) & Demo kết quả đã làm được trong Sprint \\ \hline
+    Sprint Retrospective & Sau Sprint Review & Rút kinh nghiệm, điều chỉnh cách làm cho Sprint sau \\
+    \hline
+  \end{tabularx}
+  \caption{Hoạt động quy trình dự án}
+  \label{tab:process_activities}
+\end{table}
+
+\subsection{Quản Lý Chất Lượng}
+
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\textwidth}{|l|X|}
+    \hline
+    \textbf{Hoạt động} & \textbf{Mô tả} \\
+    \hline
+    Code Review & Mọi Pull Request phải được ít nhất 1 thành viên khác review trước khi merge \\ \hline
+    Unit Test & Viết test cho các API nghiệp vụ chính, đặc biệt Module 1, 2, 4 \\ \hline
+    Kiểm thử thủ công & Test lại luồng chính trên trình duyệt/thiết bị thật trước khi coi task là Done \\ \hline
+    Chuẩn coding convention & Thống nhất quy tắc đặt tên biến, cấu trúc thư mục\\
+    \hline
+  \end{tabularx}
+  \caption{Kế hoạch quản lý chất lượng}
+  \label{tab:quality_management}
+\end{table}
+
+\section{Sản Phẩm Bàn Giao}
+
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\textwidth}{|c|X|l|}
+    \hline
+    \textbf{STT} & \textbf{Sản phẩm bàn giao} & \textbf{Định dạng} \\
+    \hline
+    1 & Ứng dụng Web (Dispatcher/Manager/Admin/\newline Customer/Station Operator) & Mã nguồn + link demo \\ \hline
+    2 & Bộ API RESTful & Mã nguồn + tài liệu API \\ \hline
+    3 & Cơ sở dữ liệu (Supabase) & Schema + dữ liệu mẫu \\ \hline
+    4 & Dịch vụ AI tích hợp (ETA, tóm tắt, chatbot) & Mã nguồn tích hợp LLM API \\ \hline
+    5 & Báo cáo dự án đầy đủ (6 chương) & File LaTeX + PDF \\ \hline
+    6 & Mã nguồn toàn bộ hệ thống & Git repository \\ \hline
+    8 & Slide + kịch bản demo & File trình chiếu \\
+    \hline
+  \end{tabularx}
+  \caption{Sản phẩm bàn giao dự án}
+  \label{tab:deliverables}
+\end{table}
+
+\section{Truyền Thông Dự Án}
+
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\textwidth}{|l|X|l|}
+    \hline
+    \textbf{Kênh} & \textbf{Mục đích} & \textbf{Tần suất} \\
+    \hline
+    Nhóm chat (Zalo) & Trao đổi nhanh hàng ngày & Liên tục \\ \hline
+    Daily Standup (họp ngắn) & Cập nhật tiến độ, phát hiện vướng mắc sớm & Hàng ngày \\ \hline
+    Jira & Theo dõi task, trạng thái công việc & Cập nhật liên tục \\ \hline
+    Sprint Review Meeting & Demo kết quả Sprint & Cuối mỗi tuần \\ \hline
+    Họp với giáo viên hướng dẫn & Báo cáo tiến độ, xin ý kiến & Định kỳ theo lịch của trường \\
+    \hline
+  \end{tabularx}
+  \caption{Kế hoạch truyền thông dự án}
+  \label{tab:communication}
+\end{table}
+
+\section{Quản Lý Cấu Hình}
+
+\subsection{Quản Lý Tài Liệu}
+
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\textwidth}{|l|l|X|}
+    \hline
+    \textbf{Loại tài liệu} & \textbf{Công cụ} & \textbf{Vị trí lưu trữ} \\
+    \hline
+    Báo cáo dự án (LaTeX) & MikTex & Repository chung trên GitHub \\ \hline
+    Wireframe/UI-UX & Figma & Project chung trên Figma \\ \hline
+    Sơ đồ (ERD, kiến trúc, use case) & draw.io / dbdiagram.io & Lưu file ảnh trong repo \texttt{/docs} \\
+    \hline
+  \end{tabularx}
+  \caption{Quản lý tài liệu dự án}
+  \label{tab:doc_management}
+\end{table}
+
+\subsection{Quản Lý Mã Nguồn}
+
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\textwidth}{|l|X|}
+    \hline
+    \textbf{Nội dung} & \textbf{Quy tắc} \\
+    \hline
+    Công cụ & Git + GitHub/GitLab \\ \hline
+    Nhánh chính & \texttt{main} (ổn định, chỉ merge từ \texttt{dev} sau khi test) \\ \hline
+    Nhánh phát triển & \texttt{dev} (tích hợp code các thành viên) \\ \hline
+    Nhánh tính năng & \texttt{feature/<tên-task>} (mỗi task 1 nhánh riêng) \\ \hline
+    Quy tắc merge & Bắt buộc Pull Request, ít nhất 1 người review trước khi merge \\ \hline
+    Quy tắc commit message & Gắn mã task Jira, vd: \texttt{CNPM-15: [M1] add order API} \\
+    \hline
+  \end{tabularx}
+  \caption{Quy tắc quản lý mã nguồn}
+  \label{tab:source_management}
+\end{table}
+
+\subsection{Công Cụ và Cơ Sở Hạ Tầng}
+
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\textwidth}{|l|X|}
+    \hline
+    \textbf{Công cụ} & \textbf{Mục đích sử dụng} \\
+    \hline
+    Jira & Quản lý task, theo dõi tiến độ Sprint \\ \hline
+    Git/GitHub & Quản lý mã nguồn \\ \hline
+    MiKTeX & Viết báo cáo LaTeX \\ \hline
+    Supabase & Cơ sở dữ liệu, xác thực, lưu trữ file, realtime \\ \hline
+    Groq API & Dịch vụ AI (chatbot, tóm tắt) \\ \hline
+    Figma / draw.io & Thiết kế giao diện, sơ đồ \\ \hline
+    Vercel & Deploy Frontend \\ \hline
+    Render & Deploy Backend \\
+    \hline
+  \end{tabularx}
+  \caption{Bảng công cụ và cơ sở hạ tầng}
+  \label{tab:tools}
+\end{table}
