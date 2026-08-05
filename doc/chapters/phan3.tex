@@ -19,9 +19,8 @@ Hệ thống gồm bốn thành phần chính:
 \begin{itemize}
   \item \textbf{Website quản trị (Admin Web):} Dành cho Quản trị viên, Quản lý logistics,
         Điều phối viên và Nhân viên vận hành trạm. Cung cấp toàn bộ chức năng quản lý nghiệp vụ.
-  \item \textbf{Ứng dụng di động (Mobile App):} Dành cho Khách hàng và Nhân viên vận hành trạm.
-        Cho phép tạo đơn, theo dõi giao hàng và xác nhận hoàn tất.
-  \item \textbf{RESTful API:} Phục vụ trao đổi dữ liệu giữa các thành phần front-end, mobile
+  \item \textbf{Giao diện Web cho người dùng cuối (Client Web):} Dành cho Khách hàng tạo đơn, theo dõi hành trình và Nhân viên vận hành trạm xác nhận đơn. Tương thích responsive tốt trên trình duyệt của các thiết bị di động.
+  \item \textbf{RESTful API:} Phục vụ trao đổi dữ liệu giữa giao diện web quản trị và giao diện web người dùng cuối.
         và các dịch vụ bên ngoài.
   \item \textbf{Dịch vụ AI:} Hỗ trợ ước lượng thời gian giao hàng (ETA), chatbot trợ lý khách
         hàng và phân tích dữ liệu vận hành.
@@ -599,7 +598,7 @@ Hệ thống SmartDroneDelivery được tổ chức thành bốn nhóm chức n
 
 \subsection{Sự Linh Hoạt (Khả Năng Tương Thích)}
 \begin{itemize}
-  \item Giao diện Web và di động phải tương thích tốt với nhiều loại thiết bị và độ phân giải màn hình khác nhau (Responsive Design).
+  \item Giao diện Web phải tương thích tốt với nhiều loại thiết bị và độ phân giải màn hình khác nhau (Responsive Design cho cả máy tính, máy tính bảng và điện thoại di động).
   \item Thiết kế giao diện phải thân thiện, trực quan, dễ sử dụng cho mọi nhóm người dùng.
 \end{itemize}
 
@@ -642,7 +641,7 @@ Hệ thống SmartDroneDelivery được tổ chức thành bốn nhóm chức n
 \subsection{Yêu Cầu Chung}
 
 \begin{itemize}
-  \item Hệ thống phải hoạt động trên nền tảng web và ứng dụng di động (iOS và Android).
+  \item Hệ thống phải hoạt động ổn định trên nền tảng Web, hỗ trợ hiển thị responsive mượt mà trên các thiết bị di động (iOS và Android) thông qua trình duyệt.
   \item Giao diện hỗ trợ đầy đủ tiếng Việt; các thông báo lỗi hiển thị rõ ràng bằng tiếng Việt.
   \item Dữ liệu nhạy cảm (mật khẩu, thông tin khách hàng) phải được mã hóa và không lưu dưới dạng plain text.
   \item Mọi API endpoint phải yêu cầu xác thực JWT; tài nguyên không có token hợp lệ sẽ bị từ chối (\texttt{401 Unauthorized}).
