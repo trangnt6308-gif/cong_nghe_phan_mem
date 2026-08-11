@@ -45,7 +45,7 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
 
 \begin{table}[H]
   \centering
-  \begin{tabularx}{\textwidth}{|l|l|X|}
+  \begin{tabularx}{\textwidth}{|l|l|>{\raggedright\arraybackslash}X|}
     \hline
     \textbf{Actor} & \textbf{Tên tiếng Việt} & \textbf{Mô tả vai trò} \\
     \hline
@@ -556,7 +556,7 @@ Hệ thống SmartDroneDelivery được tổ chức thành bốn nhóm chức n
 \textbf{Chức năng:}
 \begin{itemize}
   \item Giao diện chat trực tiếp trong ứng dụng.
-  \item Tích hợp LLM API (Anthropic/OpenAI) xử lý ngôn ngữ tự nhiên.
+  \item Tích hợp LLM API (Groq) xử lý ngôn ngữ tự nhiên.
   \item Tra cứu thông tin đơn hàng ngữ cảnh để trả lời chính xác.
   \item Fallback: thông báo lỗi và gợi ý liên hệ Dispatcher khi API không khả dụng.
 \end{itemize}
@@ -647,7 +647,7 @@ Hệ thống SmartDroneDelivery được tổ chức thành bốn nhóm chức n
   \item Mọi API endpoint phải yêu cầu xác thực JWT; tài nguyên không có token hợp lệ sẽ bị từ chối (\texttt{401 Unauthorized}).
   \item Hệ thống phải có cơ chế ghi log mọi thao tác quan trọng (tạo/sửa/xóa đơn, thay đổi trạng thái kiện hàng, quản lý tài khoản).
   \item Thư thông báo được gửi qua email hoặc push notification khi trạng thái đơn hàng thay đổi.
-  \item Hệ thống phải tuân thủ GDPR cơ bản: không chia sế dữ liệu cá nhân khách hàng cho bên thứ ba không được ủy quyền.
+  \item Hệ thống phải tuân thủ GDPR cơ bản: không chia sẻ dữ liệu cá nhân khách hàng cho bên thứ ba không được ủy quyền.
 \end{itemize}
 
 \subsection{Danh Sách Thông Báo Hệ Thống}
@@ -656,9 +656,15 @@ Hệ thống SmartDroneDelivery được tổ chức thành bốn nhóm chức n
   \hline
   \textbf{Mã} & \textbf{Loại} & \textbf{Nội dung thông báo} \\
   \hline
+  \endfirsthead
+  \hline
+  \textbf{Mã} & \textbf{Loại} & \textbf{Nội dung thông báo} \\
+  \hline
   \endhead
   \hline
   \endfoot
+  \hline
+  \endlastfoot
   MSG-001 & Thành công  & Đơn hàng đã được tạo thành công. \\ \hline
   MSG-002 & Thành công  & Đơn hàng đã được phê duyệt. \\ \hline
   MSG-003 & Thành công  & Đơn hàng đã được giao thành công. \\ \hline
