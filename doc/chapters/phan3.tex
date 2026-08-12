@@ -9,7 +9,7 @@
 \textbf{Tên hệ thống:} SmartDroneDelivery -- Nền tảng quản lý giao hàng bằng Drone tích hợp AI.
 
 Hệ thống được xây dựng nhằm hỗ trợ doanh nghiệp logistics quản lý toàn bộ quy trình giao hàng
-bằng máy bay không người lái (Drone), từ tiếp nhận yêu cầu giao hàng, quản lý khách hàng, kiện
+bằng máy bay không người lái, từ tiếp nhận yêu cầu giao hàng, quản lý khách hàng, kiện
 hàng, trạm hạ cánh đến theo dõi trạng thái giao hàng theo thời gian thực và xác nhận hoàn tất.
 
 \subsection{Các Thành Phần Hệ Thống}
@@ -17,12 +17,12 @@ hàng, trạm hạ cánh đến theo dõi trạng thái giao hàng theo thời g
 Hệ thống gồm bốn thành phần chính:
 
 \begin{itemize}
-  \item \textbf{Website quản trị (Admin Web):} Dành cho Quản trị viên, Quản lý logistics,
+  \item \textbf{Website quản trị:} Dành cho Quản trị viên, Quản lý logistics,
         Điều phối viên và Nhân viên vận hành trạm. Cung cấp toàn bộ chức năng quản lý nghiệp vụ.
-  \item \textbf{Giao diện Web cho người dùng cuối (Client Web):} Dành cho Khách hàng tạo đơn, theo dõi hành trình và Nhân viên vận hành trạm xác nhận đơn. Tương thích responsive tốt trên trình duyệt của các thiết bị di động.
+  \item \textbf{Giao diện Web cho người dùng cuối:} Dành cho Khách hàng tạo đơn, theo dõi hành trình và Nhân viên vận hành trạm xác nhận đơn. Tương thích responsive tốt trên trình duyệt của các thiết bị di động.
   \item \textbf{RESTful API:} Phục vụ trao đổi dữ liệu giữa giao diện web quản trị và giao diện web người dùng cuối.
         và các dịch vụ bên ngoài.
-  \item \textbf{Dịch vụ AI:} Hỗ trợ ước lượng thời gian giao hàng (ETA), chatbot trợ lý khách
+  \item \textbf{Dịch vụ AI:} Hỗ trợ ước lượng thời gian giao hàng dự kiến, chatbot trợ lý khách
         hàng và phân tích dữ liệu vận hành.
 \end{itemize}
 
@@ -120,18 +120,18 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
     \hline
     \textbf{UC ID} & \textbf{Tên Use Case} & \textbf{Actor chính} \\
     \hline
-    UC-01 & Đăng nhập \& Phân quyền                  & Tất cả \\ \hline
+    UC-01 & Đăng nhập và Phân quyền                  & Tất cả \\ \hline
     UC-02 & Tạo đơn giao hàng mới                    & Customer \\ \hline
-    UC-03 & Cập nhật / Hủy đơn giao hàng             & Customer \\ \hline
+    UC-03 & Cập nhật và Hủy đơn giao hàng             & Customer \\ \hline
     UC-04 & Phê duyệt yêu cầu giao hàng              & Dispatcher \\ \hline
-    UC-05 & Lập lịch giao hàng (Scheduling)           & Dispatcher \\ \hline
+    UC-05 & Lập lịch giao hàng           & Dispatcher \\ \hline
     UC-06 & Xử lý giao hàng thất bại                 & Dispatcher \\ \hline
     UC-07 & Xác nhận nhận/gửi kiện hàng tại trạm     & Station Operator \\ \hline
     UC-08 & Theo dõi giao hàng thời gian thực        & Customer, Dispatcher, Station Operator \\ \hline
     UC-09 & Xác nhận giao hàng thành công            & Station Operator, Customer \\ \hline
-    UC-10 & Ước lượng thời gian giao hàng (ETA)      & Customer, Dispatcher \\ \hline
-    UC-11 & Trợ lý AI cho khách hàng (Chatbot)       & Customer \\ \hline
-    UC-12 & Tạo / Quản lý tài khoản người dùng       & Admin \\
+    UC-10 & Ước lượng thời gian giao hàng dự kiến      & Customer, Dispatcher \\ \hline
+    UC-11 & Trợ lý AI cho khách hàng       & Customer \\ \hline
+    UC-12 & Tạo và quản lý tài khoản người dùng       & Admin \\
     \hline
   \end{tabularx}
   \caption{Bảng tổng hợp use case hệ thống SmartDroneDelivery}
@@ -147,9 +147,9 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
   \centering
   \begin{tabularx}{\textwidth}{|l|X|}
     \hline
-    \multicolumn{2}{|l|}{\textbf{UC-01: Đăng Nhập \& Phân Quyền}} \\
+    \multicolumn{2}{|l|}{\textbf{Đăng Nhập và Phân Quyền}} \\
     \hline
-    \textbf{Tác nhân}           & Tất cả actor (Customer, Dispatcher, Station Operator, Logistics Manager, Admin) \\ \hline
+    \textbf{Tác nhân}           & Tất cả tác nhân như Khách hàng, Điều phối viên, Nhân viên vận hành trạm, Quản lý logistics và Quản trị viên \\ \hline
     \textbf{Mô tả}              & Người dùng đăng nhập vào hệ thống bằng tài khoản đã được cấp; hệ thống xác định vai trò và phân quyền tương ứng. \\ \hline
     \textbf{Điều kiện tiên quyết} & Người dùng đã có tài khoản hợp lệ trong hệ thống. \\ \hline
     \textbf{Luồng sự kiện chính} &
@@ -160,13 +160,13 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
         \item Hệ thống chuyển hướng đến giao diện tương ứng với vai trò.
       \end{enumerate} \\ \hline
     \textbf{Luồng rẽ nhánh / Ngoại lệ} &
-      \textbf{2a.} Sai tài khoản/mật khẩu $\rightarrow$ hệ thống báo lỗi, yêu cầu nhập lại.
+      \textbf{2a.} Sai tài khoản hoặc mật khẩu $\rightarrow$ hệ thống báo lỗi, yêu cầu nhập lại.
       \newline
       \textbf{2b.} Tài khoản bị khóa $\rightarrow$ hệ thống thông báo không thể đăng nhập. \\ \hline
-    \textbf{Hậu điều kiện}      & Người dùng được đăng nhập thành công, có phiên làm việc (session) hợp lệ. \\
+    \textbf{Hậu điều kiện}      & Người dùng được đăng nhập thành công, có phiên làm việc hợp lệ. \\
     \hline
   \end{tabularx}
-  \caption{Đặc tả UC-01: Đăng Nhập \& Phân Quyền}
+  \caption{Đặc tả Đăng Nhập và Phân Quyền}
   \label{tab:uc01}
 \end{table}
 
@@ -175,9 +175,9 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
   \centering
   \begin{tabularx}{\textwidth}{|l|X|}
     \hline
-    \multicolumn{2}{|l|}{\textbf{UC-02: Tạo Đơn Giao Hàng Mới}} \\
+    \multicolumn{2}{|l|}{\textbf{Tạo Đơn Giao Hàng Mới}} \\
     \hline
-    \textbf{Tác nhân}           & Khách hàng (Customer) \\ \hline
+    \textbf{Tác nhân}           & Khách hàng \\ \hline
     \textbf{Mô tả}              & Khách hàng tạo một yêu cầu giao hàng mới trên hệ thống. \\ \hline
     \textbf{Điều kiện tiên quyết} & Đã đăng nhập; đã có ít nhất 1 địa chỉ giao hàng. \\ \hline
     \textbf{Luồng sự kiện chính} &
@@ -195,7 +195,7 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
     \textbf{Hậu điều kiện}      & Đơn hàng mới được lưu vào hệ thống với trạng thái ``Chờ duyệt''. \\
     \hline
   \end{tabularx}
-  \caption{Đặc tả UC-02: Tạo Đơn Giao Hàng Mới}
+  \caption{Đặc tả Tạo Đơn Giao Hàng Mới}
   \label{tab:uc02}
 \end{table}
 
@@ -204,11 +204,11 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
   \centering
   \begin{tabularx}{\textwidth}{|l|X|}
     \hline
-    \multicolumn{2}{|l|}{\textbf{UC-03: Cập Nhật / Hủy Đơn Giao Hàng}} \\
+    \multicolumn{2}{|l|}{\textbf{Cập Nhật hoặc Hủy Đơn Giao Hàng}} \\
     \hline
-    \textbf{Tác nhân}           & Khách hàng (Customer) \\ \hline
+    \textbf{Tác nhân}           & Khách hàng \\ \hline
     \textbf{Mô tả}              & Khách hàng sửa thông tin hoặc hủy đơn khi đơn chưa được xử lý. \\ \hline
-    \textbf{Điều kiện tiên quyết} & Đơn đang ở trạng thái ``Chờ duyệt'' (chưa gán trạm/drone). \\ \hline
+    \textbf{Điều kiện tiên quyết} & Đơn đang ở trạng thái ``Chờ duyệt'' khi chưa gán trạm hoặc drone. \\ \hline
     \textbf{Luồng sự kiện chính} &
       \begin{enumerate}[leftmargin=*, nosep, topsep=0pt]
         \item Khách hàng mở chi tiết đơn hàng.
@@ -217,11 +217,11 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
         \item Nếu hủy: xác nhận, hệ thống đổi trạng thái = ``Đã hủy''.
       \end{enumerate} \\ \hline
     \textbf{Luồng rẽ nhánh / Ngoại lệ} &
-      \textbf{2a.} Đơn đã được duyệt/gán trạm $\rightarrow$ không cho sửa/hủy, báo ``Đơn đã xử lý, không thể thay đổi''. \\ \hline
+      \textbf{2a.} Đơn đã được duyệt hoặc gán trạm $\rightarrow$ không cho sửa hoặc hủy, báo ``Đơn đã xử lý, không thể thay đổi''. \\ \hline
     \textbf{Hậu điều kiện}      & Đơn được cập nhật hoặc chuyển trạng thái ``Đã hủy''. \\
     \hline
   \end{tabularx}
-  \caption{Đặc tả UC-03: Cập Nhật / Hủy Đơn Giao Hàng}
+  \caption{Đặc tả Cập Nhật hoặc Hủy Đơn Giao Hàng}
   \label{tab:uc03}
 \end{table}
 
@@ -230,10 +230,10 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
   \centering
   \begin{tabularx}{\textwidth}{|l|X|}
     \hline
-    \multicolumn{2}{|l|}{\textbf{UC-04: Phê Duyệt Yêu Cầu Giao Hàng}} \\
+    \multicolumn{2}{|l|}{\textbf{Phê Duyệt Yêu Cầu Giao Hàng}} \\
     \hline
-    \textbf{Tác nhân}           & Điều phối viên (Dispatcher) \\ \hline
-    \textbf{Mô tả}              & Dispatcher xem xét và duyệt/từ chối đơn hàng mới. \\ \hline
+    \textbf{Tác nhân}           & Điều phối viên \\ \hline
+    \textbf{Mô tả}              & Dispatcher xem xét và duyệt hoặc từ chối đơn hàng mới. \\ \hline
     \textbf{Điều kiện tiên quyết} & Đơn đang ở trạng thái ``Chờ duyệt''. \\ \hline
     \textbf{Luồng sự kiện chính} &
       \begin{enumerate}[leftmargin=*, nosep, topsep=0pt]
@@ -247,7 +247,7 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
     \textbf{Hậu điều kiện}      & Đơn chuyển trạng thái ``Đã duyệt'' hoặc ``Bị từ chối''. \\
     \hline
   \end{tabularx}
-  \caption{Đặc tả UC-04: Phê Duyệt Yêu Cầu Giao Hàng}
+  \caption{Đặc tả Phê Duyệt Yêu Cầu Giao Hàng}
   \label{tab:uc04}
 \end{table}
 
@@ -256,9 +256,9 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
   \centering
   \begin{tabularx}{\textwidth}{|l|X|}
     \hline
-    \multicolumn{2}{|l|}{\textbf{UC-05: Lập Lịch Giao Hàng (Scheduling)}} \\
+    \multicolumn{2}{|l|}{\textbf{Lập Lịch Giao Hàng}} \\
     \hline
-    \textbf{Tác nhân}           & Điều phối viên (Dispatcher) \\ \hline
+    \textbf{Tác nhân}           & Điều phối viên \\ \hline
     \textbf{Mô tả}              & Dispatcher xếp lịch giao hàng cho đơn đã duyệt, gán trạm và thời gian dự kiến. \\ \hline
     \textbf{Điều kiện tiên quyết} & Đơn đang ở trạng thái ``Đã duyệt''. \\ \hline
     \textbf{Luồng sự kiện chính} &
@@ -273,7 +273,7 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
     \textbf{Hậu điều kiện}      & Đơn được gán trạm và thời gian giao, trạng thái ``Đã lên lịch''. \\
     \hline
   \end{tabularx}
-  \caption{Đặc tả UC-05: Lập Lịch Giao Hàng}
+  \caption{Đặc tả Lập Lịch Giao Hàng}
   \label{tab:uc05}
 \end{table}
 
@@ -282,14 +282,14 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
   \centering
   \begin{tabularx}{\textwidth}{|l|X|}
     \hline
-    \multicolumn{2}{|l|}{\textbf{UC-06: Xử Lý Giao Hàng Thất Bại}} \\
+    \multicolumn{2}{|l|}{\textbf{Xử Lý Giao Hàng Thất Bại}} \\
     \hline
-    \textbf{Tác nhân}           & Điều phối viên (Dispatcher) \\ \hline
+    \textbf{Tác nhân}           & Điều phối viên \\ \hline
     \textbf{Mô tả}              & Dispatcher xử lý các đơn hàng giao không thành công (extend từ UC-08 Theo dõi tiến trình giao hàng). \\ \hline
     \textbf{Điều kiện tiên quyết} & Đơn đang ở trạng thái ``Đang giao'' và phát sinh sự cố. \\ \hline
     \textbf{Luồng sự kiện chính} &
       \begin{enumerate}[leftmargin=*, nosep, topsep=0pt]
-        \item Hệ thống / Station Operator ghi nhận sự cố giao hàng.
+        \item Hệ thống hoặc Nhân viên vận hành trạm ghi nhận sự cố giao hàng.
         \item Dispatcher xem chi tiết sự cố.
         \item Dispatcher quyết định: giao lại, hủy đơn, hoặc liên hệ khách hàng.
         \item Hệ thống cập nhật trạng thái đơn tương ứng.
@@ -299,7 +299,7 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
     \textbf{Hậu điều kiện}      & Đơn được xử lý lại hoặc chuyển trạng thái ``Giao thất bại''. \\
     \hline
   \end{tabularx}
-  \caption{Đặc tả UC-06: Xử Lý Giao Hàng Thất Bại}
+  \caption{Đặc tả Xử Lý Giao Hàng Thất Bại}
   \label{tab:uc06}
 \end{table}
 
@@ -308,15 +308,15 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
   \centering
   \begin{tabularx}{\textwidth}{|l|X|}
     \hline
-    \multicolumn{2}{|l|}{\textbf{UC-07: Xác Nhận Nhận/Gửi Kiện Hàng Tại Trạm}} \\
+    \multicolumn{2}{|l|}{\textbf{Xác Nhận Nhận và Gửi Kiện Hàng Tại Trạm}} \\
     \hline
-    \textbf{Tác nhân}           & Nhân viên vận hành trạm (Station Operator) \\ \hline
+    \textbf{Tác nhân}           & Nhân viên vận hành trạm \\ \hline
     \textbf{Mô tả}              & Nhân viên trạm xác nhận đã nhận kiện hàng từ khách hoặc đặt kiện hàng lên drone để giao. \\ \hline
     \textbf{Điều kiện tiên quyết} & Đơn đã được lên lịch, gán đúng trạm này. \\ \hline
     \textbf{Luồng sự kiện chính} &
       \begin{enumerate}[leftmargin=*, nosep, topsep=0pt]
         \item Nhân viên trạm nhận kiện hàng (từ khách hàng hoặc từ kho).
-        \item Quét/nhập mã đơn hàng để xác nhận.
+        \item Quét hoặc nhập mã đơn hàng để xác nhận.
         \item Hệ thống cập nhật trạng thái kiện hàng = ``Đã nhận tại trạm''.
         \item Khi drone sẵn sàng, nhân viên xác nhận gửi đi, trạng thái = ``Đang giao''.
       \end{enumerate} \\ \hline
@@ -325,7 +325,7 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
     \textbf{Hậu điều kiện}      & Trạng thái kiện hàng được cập nhật đúng theo bước xử lý tại trạm. \\
     \hline
   \end{tabularx}
-  \caption{Đặc tả UC-07: Xác Nhận Nhận/Gửi Kiện Hàng Tại Trạm}
+  \caption{Đặc tả Xác Nhận Nhận và Gửi Kiện Hàng Tại Trạm}
   \label{tab:uc07}
 \end{table}
 
@@ -334,7 +334,7 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
   \centering
   \begin{tabularx}{\textwidth}{|l|X|}
     \hline
-    \multicolumn{2}{|l|}{\textbf{UC-08: Theo Dõi Giao Hàng Thời Gian Thực}} \\
+    \multicolumn{2}{|l|}{\textbf{Theo Dõi Giao Hàng Thời Gian Thực}} \\
     \hline
     \textbf{Tác nhân}           & Khách hàng, Điều phối viên, Nhân viên vận hành trạm \\ \hline
     \textbf{Mô tả}              & Xem vị trí và trạng thái di chuyển của đơn hàng đang giao, cập nhật theo thời gian thực. \\ \hline
@@ -348,10 +348,10 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
       \end{enumerate} \\ \hline
     \textbf{Luồng rẽ nhánh / Ngoại lệ} &
       \textbf{2a.} Mất kết nối dữ liệu vị trí $\rightarrow$ hiển thị trạng thái cuối cùng ghi nhận được, báo ``Đang chờ cập nhật''. \\ \hline
-    \textbf{Hậu điều kiện}      & Actor xem được vị trí/trạng thái giao hàng mới nhất. \\
+    \textbf{Hậu điều kiện}      & Actor xem được vị trí hoặc trạng thái giao hàng mới nhất. \\
     \hline
   \end{tabularx}
-  \caption{Đặc tả UC-08: Theo Dõi Giao Hàng Thời Gian Thực}
+  \caption{Đặc tả Theo Dõi Giao Hàng Thời Gian Thực}
   \label{tab:uc08}
 \end{table}
 
@@ -360,7 +360,7 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
   \centering
   \begin{tabularx}{\textwidth}{|l|X|}
     \hline
-    \multicolumn{2}{|l|}{\textbf{UC-09: Xác Nhận Giao Hàng Thành Công}} \\
+    \multicolumn{2}{|l|}{\textbf{Xác Nhận Giao Hàng Thành Công}} \\
     \hline
     \textbf{Tác nhân}           & Nhân viên vận hành trạm, Khách hàng \\ \hline
     \textbf{Mô tả}              & Xác nhận đơn hàng đã được giao đến tay người nhận. \\ \hline
@@ -376,7 +376,7 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
     \textbf{Hậu điều kiện}      & Đơn hàng ở trạng thái ``Đã giao thành công'', quy trình giao hàng kết thúc. \\
     \hline
   \end{tabularx}
-  \caption{Đặc tả UC-09: Xác Nhận Giao Hàng Thành Công}
+  \caption{Đặc tả Xác Nhận Giao Hàng Thành Công}
   \label{tab:uc09}
 \end{table}
 
@@ -385,10 +385,10 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
   \centering
   \begin{tabularx}{\textwidth}{|l|X|}
     \hline
-    \multicolumn{2}{|l|}{\textbf{UC-10: Ước Lượng Thời Gian Giao Hàng (ETA)}} \\
+    \multicolumn{2}{|l|}{\textbf{Ước Lượng Thời Gian Giao Hàng}} \\
     \hline
     \textbf{Tác nhân}           & Khách hàng, Điều phối viên \\ \hline
-    \textbf{Mô tả}              & Hệ thống ước tính thời gian dự kiến giao hàng dựa trên khoảng cách và tốc độ trung bình (heuristic). \\ \hline
+    \textbf{Mô tả}              & Hệ thống ước tính thời gian dự kiến giao hàng dựa trên khoảng cách và tốc độ trung bình. \\ \hline
     \textbf{Điều kiện tiên quyết} & Đơn đã được lên lịch, có tọa độ trạm xuất phát và địa chỉ giao. \\ \hline
     \textbf{Luồng sự kiện chính} &
       \begin{enumerate}[leftmargin=*, nosep, topsep=0pt]
@@ -402,7 +402,7 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
     \textbf{Hậu điều kiện}      & Actor xem được thời gian dự kiến giao hàng. \\
     \hline
   \end{tabularx}
-  \caption{Đặc tả UC-10: Ước Lượng Thời Gian Giao Hàng}
+  \caption{Đặc tả Ước Lượng Thời Gian Giao Hàng}
   \label{tab:uc10}
 \end{table}
 
@@ -411,10 +411,10 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
   \centering
   \begin{tabularx}{\textwidth}{|l|X|}
     \hline
-    \multicolumn{2}{|l|}{\textbf{UC-11: Trợ Lý AI Cho Khách Hàng (Chatbot)}} \\
+    \multicolumn{2}{|l|}{\textbf{Trợ Lý AI Cho Khách Hàng}} \\
     \hline
     \textbf{Tác nhân}           & Khách hàng \\ \hline
-    \textbf{Mô tả}              & Khách hàng đặt câu hỏi liên quan đến đơn hàng; chatbot dựa trên LLM API trả lời tự động (include: Tra cứu thông tin giao hàng). \\ \hline
+    \textbf{Mô tả}              & Khách hàng đặt câu hỏi liên quan đến đơn hàng; chatbot dựa trên LLM API trả lời tự động bao gồm tra cứu thông tin giao hàng. \\ \hline
     \textbf{Điều kiện tiên quyết} & Khách hàng đã đăng nhập. \\ \hline
     \textbf{Luồng sự kiện chính} &
       \begin{enumerate}[leftmargin=*, nosep, topsep=0pt]
@@ -428,7 +428,7 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
     \textbf{Hậu điều kiện}      & Khách hàng nhận được câu trả lời liên quan đến đơn hàng. \\
     \hline
   \end{tabularx}
-  \caption{Đặc tả UC-11: Trợ Lý AI Cho Khách Hàng}
+  \caption{Đặc tả Trợ Lý AI Cho Khách Hàng}
   \label{tab:uc11}
 \end{table}
 
@@ -437,24 +437,24 @@ Hệ thống SmartDroneDelivery có năm tác nhân chính tương tác với h�
   \centering
   \begin{tabularx}{\textwidth}{|l|X|}
     \hline
-    \multicolumn{2}{|l|}{\textbf{UC-12: Tạo / Quản Lý Tài Khoản Người Dùng}} \\
+    \multicolumn{2}{|l|}{\textbf{Tạo và Quản Lý Tài Khoản Người Dùng}} \\
     \hline
-    \textbf{Tác nhân}           & Quản trị viên hệ thống (Admin) \\ \hline
+    \textbf{Tác nhân}           & Quản trị viên hệ thống \\ \hline
     \textbf{Mô tả}              & Admin tạo, chỉnh sửa, phân quyền tài khoản cho các actor trong hệ thống. \\ \hline
     \textbf{Điều kiện tiên quyết} & Admin đã đăng nhập với quyền quản trị. \\ \hline
     \textbf{Luồng sự kiện chính} &
       \begin{enumerate}[leftmargin=*, nosep, topsep=0pt]
         \item Admin mở màn hình quản lý người dùng.
-        \item Tạo tài khoản mới, gán vai trò (Customer / Dispatcher / Station Operator / Logistics Manager / Admin).
-        \item Hoặc chỉnh sửa/khóa tài khoản hiện có.
+        \item Tạo tài khoản mới, gán vai trò như Khách hàng, Điều phối viên, Nhân viên vận hành trạm, Quản lý logistics hoặc Quản trị viên.
+        \item Hoặc chỉnh sửa hoặc khóa tài khoản hiện có.
         \item Hệ thống lưu thay đổi và ghi log hoạt động.
       \end{enumerate} \\ \hline
     \textbf{Luồng rẽ nhánh / Ngoại lệ} &
-      \textbf{2a.} Email/tài khoản đã tồn tại $\rightarrow$ báo lỗi, yêu cầu nhập lại. \\ \hline
+      \textbf{2a.} Email hoặc tài khoản đã tồn tại $\rightarrow$ báo lỗi, yêu cầu nhập lại. \\ \hline
     \textbf{Hậu điều kiện}      & Tài khoản được tạo/cập nhật, có hiệu lực ngay trong hệ thống. \\
     \hline
   \end{tabularx}
-  \caption{Đặc tả UC-12: Tạo / Quản Lý Tài Khoản Người Dùng}
+  \caption{Đặc tả Tạo và Quản Lý Tài Khoản Người Dùng}
   \label{tab:uc12}
 \end{table}
 
@@ -481,7 +481,7 @@ Hệ thống SmartDroneDelivery được tổ chức thành bốn nhóm chức n
 \textbf{Chức năng:}
 \begin{itemize}
   \item Nhập email/tên đăng nhập và mật khẩu.
-  \item Xác thực tài khoản, cấp phiên làm việc (JWT token).
+  \item Xác thực tài khoản, cấp phiên làm việc.
   \item Phân quyền và điều hướng đến giao diện theo vai trò.
   \item Hỗ trợ đăng xuất khỏi hệ thống.
 \end{itemize}
@@ -493,7 +493,7 @@ Hệ thống SmartDroneDelivery được tổ chức thành bốn nhóm chức n
 \begin{itemize}
   \item Tạo tài khoản mới với vai trò tương ứng.
   \item Chỉnh sửa thông tin tài khoản.
-  \item Khóa/mở khóa tài khoản.
+  \item Khóa hoặc mở khóa tài khoản.
   \item Ghi log hoạt động quản trị.
 \end{itemize}
 
@@ -514,7 +514,7 @@ Hệ thống SmartDroneDelivery được tổ chức thành bốn nhóm chức n
 
 \textbf{Chức năng:}
 \begin{itemize}
-  \item Quét/nhập mã đơn để xác nhận nhận kiện hàng.
+  \item Quét hoặc nhập mã đơn để xác nhận nhận kiện hàng.
   \item Cập nhật trạng thái kiện hàng (Đã nhận tại trạm, Đang giao).
   \item Xác nhận giao hàng thành công.
 \end{itemize}
@@ -527,7 +527,7 @@ Hệ thống SmartDroneDelivery được tổ chức thành bốn nhóm chức n
   \item Thêm trạm hạ cánh mới (tên, tọa độ, sức chứa).
   \item Cập nhật thông tin trạm.
   \item Xóa trạm.
-  \item Cập nhật trạng thái hoạt động (Đang hoạt động / Bảo trì / Ngừng).
+  \item Cập nhật trạng thái hoạt động (Đang hoạt động, Bảo trì hoặc Ngừng).
 \end{itemize}
 
 \subsubsection{FR-06: Theo Dõi Giao Hàng Thời Gian Thực}
@@ -556,7 +556,7 @@ Hệ thống SmartDroneDelivery được tổ chức thành bốn nhóm chức n
 \textbf{Chức năng:}
 \begin{itemize}
   \item Giao diện chat trực tiếp trong ứng dụng.
-  \item Tích hợp LLM API (Groq) xử lý ngôn ngữ tự nhiên.
+  \item Tích hợp LLM API của Groq để xử lý ngôn ngữ tự nhiên.
   \item Tra cứu thông tin đơn hàng ngữ cảnh để trả lời chính xác.
   \item Fallback: thông báo lỗi và gợi ý liên hệ Dispatcher khi API không khả dụng.
 \end{itemize}
@@ -568,7 +568,7 @@ Hệ thống SmartDroneDelivery được tổ chức thành bốn nhóm chức n
 \subsection{Xác Thực và Phân Quyền}
 \begin{itemize}
   \item Hệ thống phải hỗ trợ cơ chế đăng nhập an toàn cho tất cả người dùng.
-  \item Phân quyền dựa trên vai trò (RBAC) cho các nhóm người dùng: Khách hàng, Điều phối viên, Nhân viên vận hành trạm, Quản lý logistics, Quản trị viên hệ thống.
+  \item Phân quyền dựa trên vai trò RBAC cho các nhóm người dùng: Khách hàng, Điều phối viên, Nhân viên vận hành trạm, Quản lý logistics, Quản trị viên hệ thống.
   \item Các thao tác nhạy cảm (xóa đơn hàng, thay đổi trạng thái giao hàng) chỉ được thực hiện bởi người dùng có quyền hạn tương ứng.
 \end{itemize}
 
@@ -578,35 +578,35 @@ Hệ thống SmartDroneDelivery được tổ chức thành bốn nhóm chức n
   \item Các giao dịch quan trọng (xác nhận giao hàng, cập nhật trạng thái drone) phải hoàn tất trong vòng 10 giây.
 \end{itemize}
 
-\subsection{Hỗ Trợ Người Dùng (Khả Năng Tải)}
+\subsection{Hỗ Trợ Người Dùng}
 \begin{itemize}
-  \item Hệ thống phải hỗ trợ tối thiểu 100 người dùng đồng thời (CCU) với hiệu suất ổn định và không làm giảm khả năng xử lý.
-  \item Kiến trúc hệ thống phải cho phép mở rộng dễ dàng (scalability) khi số lượng người dùng và đơn hàng tăng lên.
+  \item Hệ thống phải hỗ trợ tối thiểu 100 người dùng đồng thời với hiệu suất ổn định và không làm giảm khả năng xử lý.
+  \item Kiến trúc hệ thống phải cho phép mở rộng dễ dàng khi số lượng người dùng và đơn hàng tăng lên.
 \end{itemize}
 
 \subsection{RESTful API Phục Vụ Tích Hợp Bên Ngoài}
 \begin{itemize}
   \item Cung cấp API chuẩn RESTful để tích hợp với các hệ thống logistics, kho vận hoặc dịch vụ bên ngoài.
-  \item API phải có tài liệu hướng dẫn và đặc tả đầy đủ (Swagger/OpenAPI).
+  \item API phải có tài liệu hướng dẫn và đặc tả đầy đủ (Swagger hoặc OpenAPI).
 \end{itemize}
 
 \subsection{Triển Khai Bằng Supabase}
 \begin{itemize}
   \item Hệ thống phải được triển khai và quản lý trên nền tảng Supabase để đảm bảo tính linh hoạt và dễ bảo trì.
-  \item Supabase hỗ trợ cơ sở dữ liệu PostgreSQL, xác thực người dùng (Auth) và API tích hợp, giúp giảm tải cấu hình thủ công.
+  \item Supabase hỗ trợ cơ sở dữ liệu PostgreSQL, xác thực người dùng và API tích hợp, giúp giảm tải cấu hình thủ công.
 \end{itemize}
 
-\subsection{Sự Linh Hoạt (Khả Năng Tương Thích)}
+\subsection{Sự Linh Hoạt}
 \begin{itemize}
-  \item Giao diện Web phải tương thích tốt với nhiều loại thiết bị và độ phân giải màn hình khác nhau (Responsive Design cho cả máy tính, máy tính bảng và điện thoại di động).
+  \item Giao diện Web phải tương thích tốt với nhiều loại thiết bị và độ phân giải màn hình khác nhau để hiển thị tương thích trên cả máy tính, máy tính bảng và điện thoại di động.
   \item Thiết kế giao diện phải thân thiện, trực quan, dễ sử dụng cho mọi nhóm người dùng.
 \end{itemize}
 
 \subsection{Giám Sát Hệ Thống, Kiểm Toán và Sao Lưu}
 \begin{itemize}
-  \item Hệ thống phải có cơ chế giám sát thời gian thực (real-time monitoring) cho drone, trạm hạ cánh và tiến trình giao hàng.
-  \item Ghi nhật ký kiểm toán (audit logging) chi tiết cho mọi thao tác quan trọng trên hệ thống.
-  \item Hỗ trợ cơ chế sao lưu dữ liệu (backup) định kỳ và khôi phục (restore) nhanh chóng khi xảy ra sự cố.
+  \item Hệ thống phải có cơ chế giám sát thời gian thực cho drone, trạm hạ cánh và tiến trình giao hàng.
+  \item Ghi nhật ký kiểm toán chi tiết cho mọi thao tác quan trọng trên hệ thống.
+  \item Hỗ trợ cơ chế sao lưu dữ liệu định kỳ và khôi phục nhanh chóng khi xảy ra sự cố.
 \end{itemize}
 
 \subsection{Kiến Trúc Phần Mềm và Khả Năng Bảo Trì}
@@ -629,11 +629,11 @@ Hệ thống SmartDroneDelivery được tổ chức thành bốn nhóm chức n
   \hline
   \endfoot
   BR-01 & Cân nặng gói hàng tối đa là 5kg; vượt quá không được tạo đơn. \\ \hline
-  BR-02 & Khách hàng chỉ được hủy/sửa đơn khi đơn ở trạng thái ``Chờ duyệt''. \\ \hline
+  BR-02 & Khách hàng chỉ được hủy hoặc sửa đơn khi đơn ở trạng thái ``Chờ duyệt''. \\ \hline
   BR-03 & Mỗi đơn hàng chỉ được gán một trạm hạ cánh tại một thời điểm. \\ \hline
   BR-04 & Trạm đang trong trạng thái ``Bảo trì'' hoặc ``Ngừng'' không được gán đơn hàng mới. \\ \hline
   BR-05 & Mật khẩu tối thiểu 8 ký tự, gồm chữ hoa, chữ thường và số. \\ \hline
-  BR-06 & Mỗi tài khoản chỉ được đăng nhập đồng thời trên một thiết bị (session duy nhất). \\ \hline
+  BR-06 & Mỗi tài khoản chỉ được đăng nhập đồng thời trên một thiết bị với phiên duy nhất. \\ \hline
   BR-07 & Hệ thống tự động cập nhật ETA mỗi 30 giây khi đơn đang trong trạng thái ``Đang giao''. \\ \hline
   BR-08 & Sau 24 giờ không xác nhận giao hàng, hệ thống tự động chuyển sang ``Chờ xác nhận quá hạn''. \\
 \end{longtable}
@@ -641,11 +641,11 @@ Hệ thống SmartDroneDelivery được tổ chức thành bốn nhóm chức n
 \subsection{Yêu Cầu Chung}
 
 \begin{itemize}
-  \item Hệ thống phải hoạt động ổn định trên nền tảng Web, hỗ trợ hiển thị responsive mượt mà trên các thiết bị di động (iOS và Android) thông qua trình duyệt.
+  \item Hệ thống phải hoạt động ổn định trên nền tảng Web, hỗ trợ hiển thị responsive mượt mà trên các thiết bị di động sử dụng iOS và Android thông qua trình duyệt.
   \item Giao diện hỗ trợ đầy đủ tiếng Việt; các thông báo lỗi hiển thị rõ ràng bằng tiếng Việt.
-  \item Dữ liệu nhạy cảm (mật khẩu, thông tin khách hàng) phải được mã hóa và không lưu dưới dạng plain text.
+  \item Dữ liệu nhạy cảm như mật khẩu và thông tin khách hàng phải được mã hóa và không lưu dưới dạng plain text.
   \item Mọi API endpoint phải yêu cầu xác thực JWT; tài nguyên không có token hợp lệ sẽ bị từ chối (\texttt{401 Unauthorized}).
-  \item Hệ thống phải có cơ chế ghi log mọi thao tác quan trọng (tạo/sửa/xóa đơn, thay đổi trạng thái kiện hàng, quản lý tài khoản).
+  \item Hệ thống phải có cơ chế ghi log mọi thao tác quan trọng (tạo, sửa hoặc xóa đơn, thay đổi trạng thái kiện hàng, quản lý tài khoản).
   \item Thư thông báo được gửi qua email hoặc push notification khi trạng thái đơn hàng thay đổi.
   \item Hệ thống phải tuân thủ GDPR cơ bản: không chia sẻ dữ liệu cá nhân khách hàng cho bên thứ ba không được ủy quyền.
 \end{itemize}
@@ -676,5 +676,5 @@ Hệ thống SmartDroneDelivery được tổ chức thành bốn nhóm chức n
   MSG-009 & Cảnh báo    & Đơn hàng đã được xử lý, không thể thay đổi. \\ \hline
   MSG-010 & Cảnh báo    & Chatbot tạm thời không khả dụng. Vui lòng liên hệ điều phối viên. \\ \hline
   MSG-011 & Thông tin   & Phiên làm việc sắp hết hạn (5 phút). \\ \hline
-  MSG-012 & Thông tin   & Đơn hàng của bạn đang được giao. ETA: \textit{[thời gian ước lượng]}. \\
+  MSG-012 & Thông tin   & Đơn hàng của bạn đang được giao. thời gian dự kiến: \textit{[thời gian ước lượng]}. \\
 \end{longtable}
