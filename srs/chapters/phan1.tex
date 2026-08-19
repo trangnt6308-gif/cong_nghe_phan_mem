@@ -7,8 +7,8 @@
 \begin{itemize}
   \item \textbf{Tên dự án:} \textit{SmartDroneDelivery - Nền tảng quản lý giao hàng bằng drone tích hợp AI}
   \item \textbf{Loại phần mềm:} Ứng dụng Web
-  \item \textbf{Thời gian thực hiện:} 8 tuần, triển khai theo mô hình Scrum (6 Sprint)
-  \item \textbf{Công nghệ chính:} ReactJS, Python (Flask), Supabase (Database và Auth), LLM API (Groq)
+  \item \textbf{Thời gian thực hiện:} 8 tuần, triển khai theo mô hình Scrum gồm 6 Sprint
+  \item \textbf{Công nghệ chính:} ReactJS, Python Flask, Supabase cho cơ sở dữ liệu và xác thực, LLM API của Groq
 \end{itemize}
 
 \subsection{Nhóm Dự Án}
@@ -32,11 +32,11 @@
 
 \section{Bối Cảnh Sản Phẩm}
 
-Sự phát triển nhanh chóng của thương mại điện tử và logistics thông minh trong những năm gần đây đã làm gia tăng đáng kể nhu cầu về các giải pháp giao hàng chặng cuối (last-mile delivery) nhanh chóng, chính xác và tự động hóa. Giao hàng bằng drone đang nổi lên như một phương thức vận chuyển hấp dẫn, đặc biệt phù hợp với các kiện hàng trọng lượng nhẹ, cần giao trong thời gian ngắn tại các khuôn viên thông minh, khu công nghiệp, khu dân cư tập trung và cả những khu vực khó tiếp cận bằng phương tiện truyền thống.
+Sự phát triển nhanh chóng của thương mại điện tử và logistics thông minh trong những năm gần đây đã làm gia tăng đáng kể nhu cầu về các giải pháp giao hàng chặng cuối nhanh chóng, chính xác và tự động hóa. Giao hàng bằng drone đang nổi lên như một phương thức vận chuyển hấp dẫn, đặc biệt phù hợp với các kiện hàng trọng lượng nhẹ, cần giao trong thời gian ngắn tại các khuôn viên thông minh, khu công nghiệp, khu dân cư tập trung và cả những khu vực khó tiếp cận bằng phương tiện truyền thống.
 
 Tuy nhiên, quản lý giao hàng bằng drone không chỉ đơn thuần là vận hành và điều khiển thiết bị bay. Đằng sau mỗi chuyến bay là cả một chuỗi nghiệp vụ: tiếp nhận và xử lý yêu cầu giao hàng, quản lý thông tin kiện hàng, điều phối trạm hạ cánh, theo dõi hành trình theo thời gian thực và xác nhận hoàn tất giao hàng. Phần lớn các hệ thống logistics hiện nay được thiết kế cho phương thức giao hàng truyền thống, thiếu sự hỗ trợ chuyên biệt cho quy trình đặc thù của giao hàng bằng drone, khiến việc vận hành trở nên rời rạc và khó theo dõi xuyên suốt vòng đời đơn hàng.
 
-Xuất phát từ thực trạng đó, nhóm đề xuất xây dựng SmartDroneDelivery - nền tảng quản lý giao hàng bằng drone tích hợp AI, hỗ trợ toàn bộ vòng đời giao hàng từ khi khách hàng khởi tạo yêu cầu đến khi giao hàng được xác nhận hoàn tất, đồng thời tích hợp các dịch vụ hỗ trợ bởi AI (thông qua LLM API) nhằm nâng cao hiệu quả vận hành và cải thiện trải nghiệm khách hàng.
+Xuất phát từ thực trạng đó, nhóm đề xuất xây dựng SmartDroneDelivery - nền tảng quản lý giao hàng bằng drone tích hợp AI, hỗ trợ toàn bộ vòng đời giao hàng từ khi khách hàng khởi tạo yêu cầu đến khi giao hàng được xác nhận hoàn tất, đồng thời tích hợp các dịch vụ hỗ trợ bởi AI thông qua LLM API nhằm nâng cao hiệu quả vận hành và cải thiện trải nghiệm khách hàng.
 
 \section{Các Hệ Thống Hiện Có}
 
@@ -45,7 +45,7 @@ Xuất phát từ thực trạng đó, nhóm đề xuất xây dựng SmartDrone
 \begin{itemize}
   \item \textbf{Liên kết:} \url{https://flytbase.com}
   \item \textbf{Mô tả:} Nền tảng phần mềm quản lý drone tự động dành cho doanh nghiệp và nhà tích hợp hệ thống, tập trung vào việc tự động hóa các quy trình vận hành và tích hợp luồng công việc trên không.
-  \item \textbf{Người dùng (Actors):}
+  \item \textbf{Tác nhân:}
     \begin{itemize}
       \item Người điều hành drone
       \item Quản lý đội bay
@@ -53,23 +53,23 @@ Xuất phát từ thực trạng đó, nhóm đề xuất xây dựng SmartDrone
     \end{itemize}
   \item \textbf{Tính năng:}
     \begin{itemize}
-      \item Quản lý và điều phối nhiều drone tại nhiều trạm (fleet management)
-      \item Hỗ trợ bay ngoài tầm nhìn trực quan (BVLOS)
-      \item Bảng điều khiển giám sát thời gian thực (pin, kết nối, cảnh báo an toàn)
+      \item Quản lý và điều phối nhiều drone tại nhiều trạm
+      \item Hỗ trợ bay ngoài tầm nhìn trực quan BVLOS
+      \item Bảng điều khiển giám sát thời gian thực bao gồm pin, kết nối và cảnh báo an toàn
     \end{itemize}
   \item \textbf{Ưu điểm:} Tự động hóa vận hành bay mạnh, hỗ trợ đa drone, đa trạm; phù hợp cho các đội bay chuyên nghiệp quy mô lớn.
-  \item \textbf{Nhược điểm:} Không có nghiệp vụ hướng đến khách hàng cuối (tạo đơn, quản lý kiện hàng, xác nhận nhận hàng, hỗ trợ AI cho khách hàng); đòi hỏi đội ngũ vận hành drone chuyên nghiệp để sử dụng.
+  \item \textbf{Nhược điểm:} Không có nghiệp vụ hướng đến khách hàng cuối bao gồm tạo đơn, quản lý kiện hàng, xác nhận nhận hàng, hỗ trợ AI cho khách hàng; đòi hỏi đội ngũ vận hành drone chuyên nghiệp để sử dụng.
 \end{itemize}
 
 \subsection{Zipline}
 
 \begin{itemize}
   \item \textbf{Liên kết:} \url{https://www.zipline.com}
-  \item \textbf{Mô tả:} Dịch vụ giao hàng bằng drone thương mại quy mô lớn, cung cấp giải pháp trọn gói từ drone tự hành, trạm cất/hạ cánh (dock) đến phần mềm đặt hàng và theo dõi giao hàng.
-  \item \textbf{Người dùng (Actors):}
+  \item \textbf{Mô tả:} Dịch vụ giao hàng bằng drone thương mại quy mô lớn, cung cấp giải pháp trọn gói từ drone tự hành, trạm cất/hạ cánh đến phần mềm đặt hàng và theo dõi giao hàng.
+  \item \textbf{Tác nhân:}
     \begin{itemize}
-      \item Khách hàng đặt hàng (y tế, bán lẻ, thực phẩm)
-      \item Đối tác doanh nghiệp (nhà hàng, bệnh viện, siêu thị)
+      \item Khách hàng đặt hàng như y tế, bán lẻ hay thực phẩm
+      \item Đối tác doanh nghiệp như nhà hàng, bệnh viện hay siêu thị
       \item Nhân viên vận hành trạm
     \end{itemize}
   \item \textbf{Tính năng:}
@@ -84,7 +84,7 @@ Xuất phát từ thực trạng đó, nhóm đề xuất xây dựng SmartDrone
 
 \section{Cơ Hội Kinh Doanh}
 
-Từ việc phân tích các hệ thống hiện có, có thể thấy một khoảng trống rõ rệt giữa hai nhóm giải pháp : nền tảng tự động hóa vận hành drone ở tầng kỹ thuật như FlytBase, không có nghiệp vụ hướng đến khách hàng cuối và dịch vụ giao hàng trọn gói khép kín như Zipline, gắn liền với hạ tầng độc quyền của nhà cung cấp. Ở giữa hai nhóm này còn thiếu một lớp phần mềm quản lý nghiệp vụ độc lập, cho phép các tổ chức ( khu công nghiệp, khu dân cư, khuôn viên trường học, doanh nghiệp logistics vừa và nhỏ ) tự triển khai và vận hành dịch vụ giao hàng bằng drone của riêng mình mà không phụ thuộc vào một nhà cung cấp duy nhất.
+Từ việc phân tích các hệ thống hiện có, có thể thấy một khoảng trống rõ rệt giữa hai nhóm giải pháp : nền tảng tự động hóa vận hành drone ở tầng kỹ thuật như FlytBase, không có nghiệp vụ hướng đến khách hàng cuối và dịch vụ giao hàng trọn gói khép kín như Zipline, gắn liền với hạ tầng độc quyền của nhà cung cấp. Ở giữa hai nhóm này còn thiếu một lớp phần mềm quản lý nghiệp vụ độc lập, cho phép các tổ chức như khu công nghiệp, khu dân cư, khuôn viên trường học, doanh nghiệp logistics vừa và nhỏ tự triển khai và vận hành dịch vụ giao hàng bằng drone của riêng mình mà không phụ thuộc vào một nhà cung cấp duy nhất.
 
 SmartDroneDelivery hướng tới lấp đầy khoảng trống đó: một nền tảng phần mềm quản lý giao hàng bằng drone, triển khai dưới dạng ứng dụng web và RESTful API, tích hợp dịch vụ AI để tối ưu vận hành, không ràng buộc tổ chức sử dụng vào một hãng drone hay dịch vụ vận chuyển cụ thể nào.
 
@@ -92,7 +92,7 @@ SmartDroneDelivery hướng tới lấp đầy khoảng trống đó: một nề
 
 SmartDroneDelivery hướng đến trở thành nền tảng quản lý giao hàng bằng drone toàn diện, đóng vai trò lớp nghiệp vụ trung tâm kết nối khách hàng, đội ngũ vận hành và trạm hạ cánh trong một quy trình giao hàng liền mạch, minh bạch và có thể theo dõi từ đầu đến cuối.
 
-Lợi thế cạnh tranh của sản phẩm nằm ở việc tích hợp các dịch vụ hỗ trợ bởi AI dự đoán thời gian đến (ETA), tóm tắt thông tin giao hàng, trợ lý ảo hỗ trợ khách hàng và phân tích vận hành giúp tự động hóa các tác vụ lặp lại và hỗ trợ người quản lý logistics ra quyết định nhanh, chính xác hơn so với các quy trình quản lý thủ công hiện nay.
+Lợi thế cạnh tranh của sản phẩm nằm ở việc tích hợp các dịch vụ hỗ trợ bởi AI dự đoán thời gian đến ETA, tóm tắt thông tin giao hàng, trợ lý ảo hỗ trợ khách hàng và phân tích vận hành giúp tự động hóa các tác vụ lặp lại và hỗ trợ người quản lý logistics ra quyết định nhanh, chính xác hơn so với các quy trình quản lý thủ công hiện nay.
 
 \section{Phạm Vi Dự Án và Giới Hạn}
 
@@ -103,7 +103,7 @@ Lợi thế cạnh tranh của sản phẩm nằm ở việc tích hợp các d�
   \item \textbf{FE2. Quản lý kiện hàng và quy trình giao hàng:} Quản lý thông tin kiện hàng; phê duyệt yêu cầu, lên lịch, theo dõi tiến trình, xác nhận hoàn thành và xử lý giao hàng thất bại.
   \item \textbf{FE3. Quản lý trạm hạ cánh:} Quản lý danh sách trạm, giám sát trạng thái sẵn sàng và xác nhận nhận kiện hàng tại trạm.
   \item \textbf{FE4. Theo dõi và xác nhận giao hàng:} Theo dõi hành trình giao hàng theo thời gian thực, xác nhận hoàn tất giao hàng.
-  \item \textbf{FE5. Bảng điều khiển và dịch vụ AI:} Thống kê, báo cáo giao hàng; dự đoán thời gian đến (ETA); tóm tắt thông tin giao hàng; trợ lý AI hỗ trợ khách hàng thông qua LLM API.
+  \item \textbf{FE5. Bảng điều khiển và dịch vụ AI:} Thống kê, báo cáo giao hàng; dự đoán thời gian đến ETA; tóm tắt thông tin giao hàng; trợ lý AI hỗ trợ khách hàng thông qua LLM API.
 \end{itemize}
 
 \subsection{Giới Hạn và Loại Trừ}
@@ -112,11 +112,11 @@ Lợi thế cạnh tranh của sản phẩm nằm ở việc tích hợp các d�
   \item \textbf{LI-01:} Không phát triển hệ thống điều khiển bay, firmware hoặc phần mềm autopilot cho drone; nền tảng chỉ quản lý nghiệp vụ giao hàng, không trực tiếp điều khiển thiết bị bay.
   \item \textbf{LI-02:} Không thiết kế, chế tạo phần cứng drone hoặc trạm hạ cánh vật lý; trạm hạ cánh được mô hình hóa như đối tượng quản lý trong hệ thống.
   \item \textbf{LI-03:} Không xử lý thủ tục pháp lý, cấp phép bay hoặc tuân thủ quy định hàng không với cơ quan quản lý không lưu.
-  \item \textbf{LI-04:} Không phát triển ứng dụng di động native (Flutter/React Native); do thời gian dự án giới hạn trong 8 tuần và nhóm chưa có nhiều kinh nghiệm với mobile native, hệ thống được triển khai dưới dạng ứng dụng Web đáp ứng (responsive), truy cập được trên cả máy tính lẫn điện thoại qua trình duyệt.
-  \item \textbf{LI-05:} Không bao gồm hệ thống thanh toán trực tuyến đầy đủ (cổng thanh toán, đối soát tài chính) trong phiên bản đầu tiên.
-  \item \textbf{LI-06:} Không cam kết độ chính xác tuyệt đối của các dự đoán do AI cung cấp (ví dụ: ETA); dịch vụ AI chỉ đóng vai trò hỗ trợ ra quyết định, không thay thế con người trong các quyết định vận hành quan trọng.
-  \item \textbf{LI-07:} Không triển khai trên hạ tầng sản xuất quy mô lớn; dự án tập trung xây dựng và kiểm thử hệ thống ở quy mô demo/pilot, triển khai trên Vercel (frontend) và Render (backend).
+  \item \textbf{LI-04:} Không phát triển ứng dụng di động native bằng Flutter hoặc React Native; do thời gian dự án giới hạn trong 8 tuần và nhóm chưa có nhiều kinh nghiệm với mobile native, hệ thống được triển khai dưới dạng ứng dụng Web tương thích nhiều thiết bị (responsive UX), truy cập được trên cả máy tính lẫn điện thoại qua trình duyệt.
+  \item \textbf{LI-05:} Không bao gồm hệ thống thanh toán trực tuyến đầy đủ bao gồm cổng thanh toán và đối soát tài chính trong phiên bản đầu tiên.
+  \item \textbf{LI-06:} Không cam kết độ chính xác tuyệt đối của các dự đoán do AI cung cấp như ETA; dịch vụ AI chỉ đóng vai trò hỗ trợ ra quyết định, không thay thế con người trong các quyết định vận hành quan trọng.
+  \item \textbf{LI-07:} Không triển khai trên hạ tầng sản xuất quy mô lớn; dự án tập trung xây dựng và kiểm thử hệ thống ở quy mô demo/pilot, triển khai trên Vercel cho frontend và Render cho backend.
   \item \textbf{LI-08:} Không kết nối trực tiếp với module GPS/định vị gắn trên drone thật; hệ thống mô phỏng vị trí drone thông qua GPS của thiết bị di động trong quá trình kiểm thử. API cập nhật vị trí được thiết kế tổng quát, không phụ thuộc nguồn phát tọa độ, nên có thể tích hợp với drone thật trong tương lai mà không cần thay đổi kiến trúc.
-  \item \textbf{LI-09:} Không tự triển khai và quản lý hạ tầng cơ sở dữ liệu/máy chủ (Docker, PostgreSQL, MinIO tự host); hệ thống sử dụng Supabase cho cơ sở dữ liệu, xác thực và lưu trữ, nhằm tối ưu thời gian phát triển.
+  \item \textbf{LI-09:} Không tự triển khai và quản lý hạ tầng cơ sở dữ liệu/máy chủ tự host bằng Docker, PostgreSQL, MinIO; hệ thống sử dụng Supabase cho cơ sở dữ liệu, xác thực và lưu trữ, nhằm tối ưu thời gian phát triển.
   \item \textbf{LI-10:} Chưa xử lý các trường hợp logistics phức tạp như giao hàng qua nhiều trạm trung chuyển hoặc tối ưu tuyến bay; đây là hướng phát triển mở rộng trong tương lai.
 \end{itemize}

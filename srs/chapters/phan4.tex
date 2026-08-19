@@ -4,36 +4,57 @@
 
 \subsection{Kiến Trúc Hệ Thống}
 
-Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình kiến trúc đa tầng (Multi-tier Architecture) nhằm tách biệt các trách nhiệm và nâng cao khả năng bảo trì, nâng cấp phần mềm. Kiến trúc hệ thống bao gồm ba tầng chính như sau:
+Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình kiến trúc đa tầng nhằm tách biệt các trách nhiệm và nâng cao khả năng bảo trì, nâng cấp phần mềm. Kiến trúc hệ thống bao gồm ba tầng chính như sau:
 
 \begin{enumerate}[leftmargin=*]
-  \item \textbf{Tầng Giao Diện (Presentation Layer / Client):}
+  \item \textbf{Tầng Giao Diện:}
     \begin{itemize}
-      \item \textbf{Customer Web Portal (React):} Ứng dụng Web dành cho Khách hàng giao tiếp qua trình duyệt để gửi yêu cầu đặt hàng mới, nhận thông báo điện tử, định vị hành trình bay của drone thời gian thực và trò chuyện trực tiếp với Trợ lý ảo (Chatbot AI).
-      \item \textbf{Management Web Portal (React):} Ứng dụng Web quản lý dành cho nhà nội bộ gồm Quản lý Logistics, Điều phối viên (Dispatcher) và Nhân viên trạm (Station Operator). Hỗ trợ duyệt hàng, lập lịch bay, quản lý vận hành trạm và thiết bị drone, xử lý sự cố phát sinh.
-      \item Hai ứng dụng Web trên liên kết với tầng Backend thông qua giao thức HTTP/HTTPS (REST API) và WebSockets (truyền tọa độ trực tuyến).
+      \item \textbf{Customer Web Portal:} Ứng dụng Web dành cho Khách hàng giao tiếp qua trình duyệt để gửi yêu cầu đặt hàng mới, nhận thông báo điện tử, định vị hành trình bay của drone thời gian thực và trò chuyện trực tiếp với Trợ lý ảo chatbot.
+      \item \textbf{Management Web Portal:} Ứng dụng Web quản lý dành cho nhà nội bộ gồm Quản lý Logistics, Điều phối viên và Nhân viên vận hành trạm. Hỗ trợ duyệt hàng, lập lịch bay, quản lý vận hành trạm và thiết bị drone, xử lý sự cố phát sinh.
+      \item Hai ứng dụng Web trên liên kết với tầng Backend thông qua giao thức HTTP/HTTPS hỗ trợ REST API và WebSockets để truyền tọa độ trực tuyến.
     \end{itemize}
-  \item \textbf{Tầng Nghiệp Vụ (Application Layer / Backend REST API):}
+  \item \textbf{Tầng Nghiệp Vụ:}
     \begin{itemize}
       \item Được phát triển dựa trên ngôn ngữ \textbf{Python} và khung ứng dụng \textbf{Flask}.
-      \item Flask tiếp nhận các yêu cầu REST API, thực hiện kiểm lỗi, và kiểm soát các ràng buộc nghiệp vụ (giới hạn tải trọng 5kg, chặn sửa đổi đơn sau khi duyệt).
-      \item Tầng Backend còn tích hợp dịch vụ phụ trợ như \textbf{LLM API (Groq/Gemini)} thông qua giao thức HTTPS để vận hành trợ lý chatbot AI đàm thoại với khách hàng.
+      \item Flask tiếp nhận các yêu cầu REST API, thực hiện kiểm lỗi, và kiểm soát các ràng buộc nghiệp vụ như giới hạn tải trọng 5kg, chặn sửa đổi đơn sau khi duyệt.
+      \item Tầng Backend còn tích hợp dịch vụ phụ trợ như \textbf{LLM API} thông qua giao thức HTTPS để vận hành trợ lý chatbot AI đàm thoại với khách hàng.
     \end{itemize}
-  \item \textbf{Tầng Dữ Liệu (Data Layer / Database Store):}
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.9\textwidth]{so-do/diagrams/sodokientruc/sơ đồ kiến trúc BE.pdf}
+      \caption{Sơ đồ cấu trúc phân tầng Flask Backend của SmartDroneDelivery}
+      \label{fig:arch-backend}
+    \end{figure}
+  \item \textbf{Tầng Dữ Liệu:}
     \begin{itemize}
       \item Sử dụng hệ quản trị cơ sở dữ liệu quan hệ \textbf{PostgreSQL} (chạy trên dịch vụ Cloud Supabase).
-      \item Mối liên kết giữa \textbf{Flask Backend} và \textbf{PostgreSQL Database} được thực hiện thông qua kết nối mạng \textbf{TCP/IP} (Transmission Control Protocol) bằng thư viện SQLAlchemy ORM trên cổng kết nối mặc định \texttt{5432}. Tất cả các truy vấn dữ liệu và giao dịch (transaction) được mã hóa bảo mật thông qua giao thức TCP.
+      \item Mối liên kết giữa \textbf{Flask Backend} và \textbf{PostgreSQL Database} được thực hiện thông qua kết nối mạng \textbf{TCP/IP} bằng thư viện SQLAlchemy ORM trên cổng kết nối mặc định \texttt{5432}. Tất cả các truy vấn dữ liệu và giao dịch được mã hóa bảo mật thông qua giao thức TCP.
     \end{itemize}
 \end{enumerate}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.9\textwidth]{so-do/diagrams/arch_backend.png}
-  \caption{Sơ đồ cấu trúc phân tầng Flask Backend của SmartDroneDelivery}
-  \label{fig:arch-backend}
-\end{figure}
 
 \subsection{Sơ Đồ Package}
+
+Hệ thống SmartDroneDelivery bao gồm hai nhóm package chính: giao diện người dùng ở phía Frontend và tầng xử lý nghiệp vụ ở phía Backend.
+
+\subsubsection{Sơ Đồ Package Frontend}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{so-do/diagrams/SoDoPackage_FE.png}
+  \caption{Sơ đồ package Frontend của hệ thống SmartDroneDelivery}
+  \label{fig:package-fe}
+\end{figure}
+
+\subsubsection{Sơ Đồ Package Backend}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{so-do/diagrams/SoDoPackage_BE.png}
+  \caption{Sơ đồ package Backend của hệ thống SmartDroneDelivery}
+  \label{fig:package-be}
+\end{figure}
 
 \section{Thiết Kế Cơ Sở Dữ Liệu}
 
@@ -54,13 +75,13 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
     \hline
     \textbf{Tên cột} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc} & \textbf{Mô tả} \\
     \hline
-    ma\_vai\_tro         & UUID            & PK, NOT NULL    & Mã vai trò (tự động tạo UUID) \\ \hline
-    ten\_vai\_tro        & VARCHAR(50)     & NOT NULL, UNIQUE & Tên vai trò (Admin, Dispatcher, v.v.) \\ \hline
+    ma\_vai\_tro         & UUID            & PK, NOT NULL    & Mã vai trò tự động tạo UUID \\ \hline
+    ten\_vai\_tro        & VARCHAR(50)     & NOT NULL, UNIQUE & Tên vai trò như Admin, Dispatcher, v.v. \\ \hline
     created\_at          & TIMESTAMPTZ     & NOT NULL        & Thời gian tạo bản ghi \\ \hline
     updated\_at          & TIMESTAMPTZ     & NOT NULL        & Thời gian cập nhật bản ghi \\
     \hline
   \end{tabularx}
-  \caption{Cấu trúc bảng \texttt{vai\_tro} (Vai trò người dùng)}
+  \caption{Cấu trúc bảng \texttt{vai\_tro} - Vai trò người dùng}
   \label{tab:db-vai-tro}
 \end{table}
 
@@ -70,7 +91,7 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
     \hline
     \textbf{Tên cột} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc} & \textbf{Mô tả} \\
     \hline
-    ma\_nguoi\_dung      & UUID            & PK, NOT NULL    & Mã người dùng (tự động tạo UUID) \\ \hline
+    ma\_nguoi\_dung      & UUID            & PK, NOT NULL    & Mã người dùng tự động tạo UUID \\ \hline
     ma\_vai\_tro         & UUID            & FK, NOT NULL    & Khóa ngoại tham chiếu đến bảng vai\_tro \\ \hline
     ho\_ten              & VARCHAR(150)    & NOT NULL        & Họ và tên người dùng \\ \hline
     email                & VARCHAR(255)    & NOT NULL, UNIQUE & Địa chỉ email người dùng \\ \hline
@@ -80,7 +101,7 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
     updated\_at          & TIMESTAMPTZ     & NOT NULL        & Thời gian cập nhật gần nhất \\
     \hline
   \end{tabularx}
-  \caption{Cấu trúc bảng \texttt{nguoi\_dung} (Tài khoản người dùng)}
+  \caption{Cấu trúc bảng \texttt{nguoi\_dung} - Tài khoản người dùng}
   \label{tab:db-nguoi-dung}
 \end{table}
 
@@ -90,11 +111,11 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
     \hline
     \textbf{Tên cột} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc} & \textbf{Mô tả} \\
     \hline
-    ma\_kh               & UUID            & PK, NOT NULL    & Mã khách hàng (tự động tạo UUID) \\ \hline
+    ma\_kh               & UUID            & PK, NOT NULL    & Mã khách hàng tự động tạo UUID \\ \hline
     ten                  & VARCHAR(50)     & NOT NULL        & Tên khách hàng \\ \hline
     ten\_dem             & VARCHAR(50)     & NULL            & Tên đệm \\ \hline
     ho                   & VARCHAR(50)     & NOT NULL        & Họ của khách hàng \\ \hline
-    gioi\_tinh           & VARCHAR(10)     & CHECK           & Giới tính (Nam, Nữ, Khác) \\ \hline
+    gioi\_tinh           & VARCHAR(10)     & CHECK           & Giới tính gồm Nam, Nữ hoặc Khác \\ \hline
     so\_dien\_thoai      & VARCHAR(20)     & NULL            & Số điện thoại liên hệ \\ \hline
     email                & VARCHAR(255)    & UNIQUE          & Địa chỉ email khách hàng \\ \hline
     ngay\_sinh           & DATE            & NULL            & Ngày tháng năm sinh \\ \hline
@@ -102,7 +123,7 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
     updated\_at          & TIMESTAMPTZ     & NOT NULL        & Thời gian cập nhật bản ghi \\
     \hline
   \end{tabularx}
-  \caption{Cấu trúc bảng \texttt{khach\_hang} (Thông tin khách hàng)}
+  \caption{Cấu trúc bảng \texttt{khach\_hang} - Thông tin khách hàng}
   \label{tab:db-khach-hang}
 \end{table}
 
@@ -112,9 +133,9 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
     \hline
     \textbf{Tên cột} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc} & \textbf{Mô tả} \\
     \hline
-    ma\_dia\_chi         & UUID            & PK, NOT NULL    & Mã địa chỉ (tự động tạo UUID) \\ \hline
+    ma\_dia\_chi         & UUID            & PK, NOT NULL    & Mã địa chỉ tự động tạo UUID \\ \hline
     ma\_kh               & UUID            & FK, NOT NULL    & Khóa ngoại tham chiếu đến bảng khach\_hang \\ \hline
-    dia\_chi\_cu\_the    & TEXT            & NOT NULL        & Địa chỉ chi tiết (số nhà, tên đường) \\ \hline
+    dia\_chi\_cu\_the    & TEXT            & NOT NULL        & Địa chỉ chi tiết gồm số nhà và tên đường \\ \hline
     thanh\_pho           & VARCHAR(100)    & NOT NULL        & Tên tỉnh hoặc thành phố \\ \hline
     lat                  & DOUBLE          & NOT NULL        & Vĩ độ GPS trên bản đồ \\ \hline
     lng                  & DOUBLE          & NOT NULL        & Kinh độ GPS trên bản đồ \\ \hline
@@ -122,7 +143,7 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
     updated\_at          & TIMESTAMPTZ     & NOT NULL        & Thời gian cập nhật bản ghi \\
     \hline
   \end{tabularx}
-  \caption{Cấu trúc bảng \texttt{dia\_chi} (Địa chỉ giao hàng)}
+  \caption{Cấu trúc bảng \texttt{dia\_chi} - Địa chỉ giao hàng}
   \label{tab:db-dia-chi}
 \end{table}
 
@@ -132,14 +153,14 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
     \hline
     \textbf{Tên cột} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc} & \textbf{Mô tả} \\
     \hline
-    ma\_tin\_nhan        & UUID            & PK, NOT NULL    & Mã tin nhắn (tự động tạo UUID) \\ \hline
+    ma\_tin\_nhan        & UUID            & PK, NOT NULL    & Mã tin nhắn tự động tạo UUID \\ \hline
     ma\_kh               & UUID            & FK, NOT NULL    & Khóa ngoại tham chiếu đến bảng khach\_hang \\ \hline
     noi\_dung            & TEXT            & NOT NULL        & Nội dung tin nhắn khách hàng gửi \\ \hline
     phan\_hoi            & TEXT            & NULL            & Nội dung phản hồi từ Chatbot AI \\ \hline
     thoi\_gian           & TIMESTAMPTZ     & NOT NULL        & Thời gian gửi tin nhắn \\
     \hline
   \end{tabularx}
-  \caption{Cấu trúc bảng \texttt{tin\_nhan\_chatbot} (Lịch sử chat AI)}
+  \caption{Cấu trúc bảng \texttt{tin\_nhan\_chatbot} - Lịch sử chat AI}
   \label{tab:db-tin-nhan-chatbot}
 \end{table}
 
@@ -149,17 +170,17 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
     \hline
     \textbf{Tên cột} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc} & \textbf{Mô tả} \\
     \hline
-    ma\_don\_hang        & UUID            & PK, NOT NULL    & Mã đơn hàng (tự động tạo UUID) \\ \hline
+    ma\_don\_hang        & UUID            & PK, NOT NULL    & Mã đơn hàng tự động tạo UUID \\ \hline
     ma\_kh               & UUID            & FK, NOT NULL    & Khóa ngoại tham chiếu đến bảng khach\_hang \\ \hline
     ma\_dia\_chi         & UUID            & FK, NOT NULL    & Khóa ngoại tham chiếu đến bảng dia\_chi \\ \hline
-    trang\_thai\_don\_hang & VARCHAR(30)     & NOT NULL, CHECK & Trạng thái đơn (Chờ duyệt, Đã duyệt, Đang giao, v.v.) \\ \hline
+    trang\_thai\_don\_hang & VARCHAR(30)     & NOT NULL, CHECK & Trạng thái đơn: Chờ duyệt, Đã duyệt, Đang giao, v.v. \\ \hline
     cach\_thuc\_thanh\_toan & VARCHAR(50)     & NULL            & Phương thức thanh toán \\ \hline
     tong\_tien           & DECIMAL(15,2)   & DEFAULT 0       & Tổng giá trị đơn hàng \\ \hline
     ngay\_dat\_hang      & TIMESTAMPTZ     & NOT NULL        & Ngày giờ đặt đơn hàng \\ \hline
     ngay\_cap\_nhat      & TIMESTAMPTZ     & NOT NULL        & Thời gian cập nhật gần nhất \\
     \hline
   \end{tabularx}
-  \caption{Cấu trúc bảng \texttt{don\_hang} (Đơn hàng giao)}
+  \caption{Cấu trúc bảng \texttt{don\_hang} - Đơn hàng giao}
   \label{tab:db-don-hang}
 \end{table}
 
@@ -175,12 +196,12 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
     lat                  & DOUBLE          & NOT NULL        & Vĩ độ GPS của trạm \\ \hline
     lng                  & DOUBLE          & NOT NULL        & Kinh độ GPS của trạm \\ \hline
     cong\_suat\_toi\_da  & INT             & NOT NULL        & Sức chứa hoặc công suất tối đa của trạm \\ \hline
-    trang\_thai\_hoat\_dong & VARCHAR(20)     & NOT NULL, CHECK & Trạng thái trạm (Đang hoạt động, Bảo trì, Ngừng) \\ \hline
+    trang\_thai\_hoat\_dong & VARCHAR(20)     & NOT NULL, CHECK & Trạng thái trạm: Đang hoạt động, Bảo trì, Ngừng \\ \hline
     created\_at          & TIMESTAMPTZ     & NOT NULL        & Thời gian tạo bản ghi \\ \hline
     updated\_at          & TIMESTAMPTZ     & NOT NULL        & Thời gian cập nhật bản ghi \\
     \hline
   \end{tabularx}
-  \caption{Cấu trúc bảng \texttt{tram\_ha\_canh} (Trạm hạ cánh drone)}
+  \caption{Cấu trúc bảng \texttt{tram\_ha\_canh} - Trạm hạ cánh drone}
   \label{tab:db-tram-ha-canh}
 \end{table}
 
@@ -190,18 +211,18 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
     \hline
     \textbf{Tên cột} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc} & \textbf{Mô tả} \\
     \hline
-    ma\_goi\_hang        & UUID            & PK, NOT NULL    & Mã gói hàng (tự động tạo UUID) \\ \hline
+    ma\_goi\_hang        & UUID            & PK, NOT NULL    & Mã gói hàng tự động tạo UUID \\ \hline
     ma\_don\_hang        & UUID            & FK, NOT NULL    & Khóa ngoại tham chiếu đến bảng don\_hang \\ \hline
     ma\_tram             & UUID            & FK, NULL        & Khóa ngoại tham chiếu đến bảng tram\_ha\_canh \\ \hline
     loai\_hang\_hoa      & VARCHAR(100)    & NOT NULL        & Loại hàng hóa trong gói \\ \hline
-    can\_nang            & DECIMAL(8,2)    & NOT NULL, CHECK & Cân nặng gói hàng (tối đa 5kg) \\ \hline
+    can\_nang            & DECIMAL(8,2)    & NOT NULL, CHECK & Cân nặng gói hàng, tối đa 5kg \\ \hline
     kich\_co             & VARCHAR(50)     & NULL            & Kích thước gói hàng \\ \hline
     gia\_tri\_uoc\_tinh  & DECIMAL(15,2)   & DEFAULT 0       & Giá trị ước tính của gói hàng \\ \hline
     created\_at          & TIMESTAMPTZ     & NOT NULL        & Thời gian tạo bản ghi \\ \hline
     updated\_at          & TIMESTAMPTZ     & NOT NULL        & Thời gian cập nhật bản ghi \\
     \hline
   \end{tabularx}
-  \caption{Cấu trúc bảng \texttt{goi\_hang} (Gói hàng vận chuyển)}
+  \caption{Cấu trúc bảng \texttt{goi\_hang} - Gói hàng vận chuyển}
   \label{tab:db-goi-hang}
 \end{table}
 
@@ -211,15 +232,15 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
     \hline
     \textbf{Tên cột} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc} & \textbf{Mô tả} \\
     \hline
-    ma\_drone            & UUID            & PK, NOT NULL    & Mã thiết bị drone (tự động tạo UUID) \\ \hline
-    trang\_thai\_drone   & VARCHAR(30)     & NOT NULL, CHECK & Trạng thái drone (Sẵn sàng, Đang giao, Bảo trì, Hỏng) \\ \hline
-    cong\_suat\_pin      & INT             & NOT NULL, CHECK & Dung lượng pin còn lại (0 đến 100 percent) \\ \hline
+    ma\_drone            & UUID            & PK, NOT NULL    & Mã thiết bị drone tự động tạo UUID \\ \hline
+    trang\_thai\_drone   & VARCHAR(30)     & NOT NULL, CHECK & Trạng thái drone: Sẵn sàng, Đang giao, Bảo trì, Hỏng \\ \hline
+    cong\_suat\_pin      & INT             & NOT NULL, CHECK & Dung lượng pin còn lại, từ 0 đến 100\% \\ \hline
     ngay\_bao\_tri\_gan\_nhat & TIMESTAMPTZ     & NULL            & Ngày bảo trì thiết bị gần nhất \\ \hline
     created\_at          & TIMESTAMPTZ     & NOT NULL        & Thời gian tạo bản ghi \\ \hline
     updated\_at          & TIMESTAMPTZ     & NOT NULL        & Thời gian cập nhật bản ghi \\
     \hline
   \end{tabularx}
-  \caption{Cấu trúc bảng \texttt{drone} (Thiết bị drone giao hàng)}
+  \caption{Cấu trúc bảng \texttt{drone} - Thiết bị drone giao hàng}
   \label{tab:db-drone}
 \end{table}
 
@@ -229,11 +250,11 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
     \hline
     \textbf{Tên cột} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc} & \textbf{Mô tả} \\
     \hline
-    ma\_giao\_hang       & UUID            & PK, NOT NULL    & Mã chuyến giao hàng (tự động tạo UUID) \\ \hline
+    ma\_giao\_hang       & UUID            & PK, NOT NULL    & Mã chuyến giao hàng tự động tạo UUID \\ \hline
     ma\_don\_hang        & UUID            & FK, NOT NULL    & Khóa ngoại tham chiếu đến bảng don\_hang \\ \hline
     ma\_drone            & UUID            & FK, NULL        & Khóa ngoại tham chiếu đến bảng drone \\ \hline
     ma\_nguoi\_phu\_trach & UUID            & FK, NULL        & Khóa ngoại tham chiếu đến bảng nguoi\_dung \\ \hline
-    trang\_thai\_giao\_hang & VARCHAR(30)     & NOT NULL, CHECK & Trạng thái giao (Chờ xử lý, Đang giao, Đã giao, Giao thất bại) \\ \hline
+    trang\_thai\_giao\_hang & VARCHAR(30)     & NOT NULL, CHECK & Trạng thái giao: Chờ xử lý, Đang giao, Đã giao, Giao thất bại \\ \hline
     vi\_tri\_hien\_tai\_lat & DOUBLE          & NULL            & Vĩ độ vị trí hiện tại của drone \\ \hline
     vi\_tri\_hien\_tai\_lng & DOUBLE          & NULL            & Kinh độ vị trí hiện tại của drone \\ \hline
     thoi\_gian\_giao     & TIMESTAMPTZ     & NULL            & Thời gian giao hàng thành công \\ \hline
@@ -241,7 +262,7 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
     updated\_at          & TIMESTAMPTZ     & NOT NULL        & Thời gian cập nhật bản ghi \\
     \hline
   \end{tabularx}
-  \caption{Cấu trúc bảng \texttt{giao\_hang} (Chuyến giao hàng)}
+  \caption{Cấu trúc bảng \texttt{giao\_hang} - Chuyến giao hàng}
   \label{tab:db-giao-hang}
 \end{table}
 
@@ -251,16 +272,16 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
     \hline
     \textbf{Tên cột} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc} & \textbf{Mô tả} \\
     \hline
-    ma\_van\_de          & UUID            & PK, NOT NULL    & Mã sự cố (tự động tạo UUID) \\ \hline
+    ma\_van\_de          & UUID            & PK, NOT NULL    & Mã sự cố tự động tạo UUID \\ \hline
     ma\_tram             & UUID            & FK, NULL        & Khóa ngoại tham chiếu đến bảng tram\_ha\_canh \\ \hline
     ma\_giao\_hang       & UUID            & FK, NOT NULL    & Khóa ngoại tham chiếu đến bảng giao\_hang \\ \hline
     thoi\_gian\_xay\_ra  & TIMESTAMPTZ     & NOT NULL        & Thời gian phát sinh sự cố \\ \hline
     mo\_ta\_su\_co       & TEXT            & NOT NULL        & Mô tả chi tiết nguyên nhân và sự cố \\ \hline
-    muc\_do\_nghiem\_trong & VARCHAR(20)     & NOT NULL, CHECK & Mức độ sự cố (Thấp, Trung bình, Cao, Nghiêm trọng) \\ \hline
+    muc\_do\_nghiem\_trong & VARCHAR(20)     & NOT NULL, CHECK & Mức độ sự cố: Thấp, Trung bình, Cao, Nghiêm trọng \\ \hline
     created\_at          & TIMESTAMPTZ     & NOT NULL        & Thời gian tạo bản ghi \\
     \hline
   \end{tabularx}
-  \caption{Cấu trúc bảng \texttt{su\_co\_giao\_hang} (Ghi nhận sự cố)}
+  \caption{Cấu trúc bảng \texttt{su\_co\_giao\_hang} - Ghi nhận sự cố}
   \label{tab:db-su-co-giao-hang}
 \end{table}
 
@@ -270,15 +291,15 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
     \hline
     \textbf{Tên cột} & \textbf{Kiểu dữ liệu} & \textbf{Ràng buộc} & \textbf{Mô tả} \\
     \hline
-    ma\_thong\_bao       & UUID            & PK, NOT NULL    & Mã thông báo (tự động tạo UUID) \\ \hline
+    ma\_thong\_bao       & UUID            & PK, NOT NULL    & Mã thông báo tự động tạo UUID \\ \hline
     ma\_kh               & UUID            & FK, NOT NULL    & Khóa ngoại tham chiếu đến bảng khach\_hang \\ \hline
     ma\_don\_hang        & UUID            & FK, NULL        & Khóa ngoại tham chiếu đến bảng don\_hang \\ \hline
-    trang\_thai          & VARCHAR(20)     & NOT NULL, CHECK & Trạng thái thông báo (Chưa đọc, Đã đọc) \\ \hline
+    trang\_thai          & VARCHAR(20)     & NOT NULL, CHECK & Trạng thái thông báo: Chưa đọc, Đã đọc \\ \hline
     thoi\_gian\_gui      & TIMESTAMPTZ     & NOT NULL        & Thời gian gửi thông báo \\ \hline
     noi\_dung            & TEXT            & NOT NULL        & Nội dung chi tiết thông báo \\
     \hline
   \end{tabularx}
-  \caption{Cấu trúc bảng \texttt{thong\_bao} (Thông báo cho khách hàng)}
+  \caption{Cấu trúc bảng \texttt{thong\_bao} - Thông báo cho khách hàng}
   \label{tab:db-thong-bao}
 \end{table}
 
@@ -318,7 +339,7 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
 \subsubsection{Sơ Đồ Tuần Tự}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{so-do/sodo-tuantu/Đăng nhập và phân quyền.drawio.pdf}
+  \includegraphics[width=\textwidth]{so-do/sodo-tuantu/seq_login.pdf}
   \caption{Sơ đồ tuần tự chức năng Đăng nhập và phân quyền}
   \label{fig:seq-uc01}
 \end{figure}
@@ -342,7 +363,7 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
     \textbf{STT} & \textbf{Tên lớp} & \textbf{Thuộc tính / Phương thức} & \textbf{Mô tả} \\
     \hline
     1 & \texttt{Dieu\allowbreak Khien\allowbreak Don\allowbreak Hang} & \texttt{tao\allowbreak Don\allowbreak Hang\allowbreak (yeu\allowbreak Cau)} & REST API controller tiếp nhận yêu cầu tạo đơn giao hàng mới. \\ \hline
-    2 & \texttt{Dich\allowbreak Vu\allowbreak Don\allowbreak Hang} & \texttt{tao\allowbreak Don\allowbreak Hang\allowbreak (ma\allowbreak Kh,\allowbreak yeu\allowbreak Cau)}, \texttt{- kiem\allowbreak Tra\allowbreak Tai\allowbreak Trong\allowbreak (can\allowbreak Nang)} & Lớp dịch vụ xử lý logic tạo đơn hàng và kiểm tra giới hạn tải trọng (5kg). \\ \hline
+    2 & \texttt{Dich\allowbreak Vu\allowbreak Don\allowbreak Hang} & \texttt{tao\allowbreak Don\allowbreak Hang\allowbreak (ma\allowbreak Kh,\allowbreak yeu\allowbreak Cau)}, \texttt{- kiem\allowbreak Tra\allowbreak Tai\allowbreak Trong\allowbreak (can\allowbreak Nang)} & Lớp dịch vụ xử lý logic tạo đơn hàng và kiểm tra giới hạn tải trọng 5kg. \\ \hline
     3 & \texttt{Kho\allowbreak Du\allowbreak Lieu\allowbreak Don\allowbreak Hang} & \texttt{luu\allowbreak (don\allowbreak Hang)} & Interface Repository lưu thông tin đơn hàng mới vào CSDL. \\ \hline
     4 & \texttt{Kho\allowbreak Du\allowbreak Lieu\allowbreak Dia\allowbreak Chi} & \texttt{tim\allowbreak Theo\allowbreak Ma\allowbreak (ma)} & Interface Repository truy vấn thông tin địa chỉ giao hàng của khách. \\ \hline
     5 & \texttt{Yeu\allowbreak Cau\allowbreak Tao\allowbreak Don} & \texttt{ma\allowbreak Dia\allowbreak Chi}, \texttt{loai\allowbreak Hang\allowbreak Hoa}, \texttt{can\allowbreak Nang}, \texttt{kich\allowbreak Co} & DTO đóng gói dữ liệu tạo đơn hàng của khách hàng gửi lên. \\ \hline
@@ -359,7 +380,7 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
 \subsubsection{Sơ Đồ Tuần Tự}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{so-do/sodo-tuantu/Tạo đơn hàng mới.drawio.pdf}
+  \includegraphics[width=\textwidth]{so-do/sodo-tuantu/seq_create_order.pdf}
   \caption{Sơ đồ tuần tự chức năng Tạo đơn hàng mới}
   \label{fig:seq-uc02}
 \end{figure}
@@ -397,7 +418,7 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
 \subsubsection{Sơ Đồ Tuần Tự}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{so-do/sodo-tuantu/Cập nhật và hủy đơn hàng.drawio.pdf}
+  \includegraphics[width=\textwidth]{so-do/sodo-tuantu/seq_update_cancel_order.pdf}
   \caption{Sơ đồ tuần tự chức năng Cập nhật và hủy đơn hàng}
   \label{fig:seq-uc03}
 \end{figure}
@@ -434,6 +455,14 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
   \label{tab:class-spec-uc04}
 \end{table}
 
+\subsubsection{Sơ Đồ Tuần Tự}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{so-do/sodo-tuantu/seq_approve_order.pdf}
+  \caption{Sơ đồ tuần tự chức năng Phê duyệt yêu cầu giao hàng}
+  \label{fig:seq-uc04}
+\end{figure}
+
 \subsection{Lập Lịch Giao Hàng}
 
 \subsubsection{Sơ Đồ Lớp}
@@ -467,6 +496,14 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
   \label{tab:class-spec-uc05}
 \end{table}
 
+\subsubsection{Sơ Đồ Tuần Tự}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{so-do/sodo-tuantu/seq_schedule_delivery.pdf}
+  \caption{Sơ đồ tuần tự chức năng Lập lịch giao hàng}
+  \label{fig:seq-uc05}
+\end{figure}
+
 \subsection{Xử Lý Giao Hàng Thất Bại}
 
 \subsubsection{Sơ Đồ Lớp}
@@ -489,7 +526,7 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
     2 & \texttt{Dich\allowbreak Vu\allowbreak Giao\allowbreak Hang} & \texttt{xu\allowbreak Ly\allowbreak Giao\allowbreak That\allowbreak Bai\allowbreak (...)},\newline \texttt{giao\allowbreak Lai\allowbreak (...)} & Dịch vụ xử lý nghiệp vụ ghi nhận sự cố của chuyến bay và yêu cầu drone quay đầu hoặc giao lại. \\ \hline
     3 & \texttt{Kho\allowbreak Du\allowbreak Lieu\allowbreak Giao\allowbreak Hang} & \texttt{tim\allowbreak Theo\allowbreak Ma\allowbreak (ma)}, \texttt{luu\allowbreak (giao\allowbreak Hang)} & Interface Repository cập nhật trạng thái chuyến giao hàng thành giao thất bại. \\ \hline
     4 & \texttt{Kho\allowbreak Du\allowbreak Lieu\allowbreak Su\allowbreak Co} & \texttt{luu\allowbreak (su\allowbreak Co)} & Interface Repository lưu vết vụ việc sự cố phát sinh của drone. \\ \hline
-    5 & \texttt{Yeu\allowbreak Cau\allowbreak Su\allowbreak Co} & \texttt{ly\allowbreak Do}, \texttt{muc\allowbreak Do\allowbreak Nghiem\allowbreak Trong} & DTO chứa chi tiết báo cáo sự cố (do thời tiết, hỏng pin, v.v.). \\ \hline
+    5 & \texttt{Yeu\allowbreak Cau\allowbreak Su\allowbreak Co} & \texttt{ly\allowbreak Do}, \texttt{muc\allowbreak Do\allowbreak Nghiem\allowbreak Trong} & DTO chứa chi tiết báo cáo sự cố do thời tiết, pin hỏng, v.v. \\ \hline
     6 & \texttt{Phan\allowbreak Hoi\allowbreak Giao\allowbreak Hang} & \texttt{ma\allowbreak Giao\allowbreak Hang}, \texttt{trang\allowbreak Thai} & DTO trả về trạng thái mới của chuyến giao hàng sau khi xử lý sự cố. \\ \hline
     7 & \texttt{Giao\allowbreak Hang} & \texttt{ma\allowbreak Giao\allowbreak Hang}, \texttt{trang\allowbreak Thai} & Thực thể chuyến giao hàng liên kết với các sự cố xảy ra. \\ \hline
     8 & \texttt{Su\allowbreak Co\allowbreak Giao\allowbreak Hang} & \texttt{ma\allowbreak Van\allowbreak De}, \texttt{mo\allowbreak Ta\allowbreak Su\allowbreak Co}, \texttt{muc\allowbreak Do\allowbreak Nghiem\allowbreak Trong} & Thực thể lưu thông tin chi tiết sự cố phục vụ thống kê phân tích. \\
@@ -498,6 +535,14 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
   \caption{Đặc tả các lớp chức năng Xử Lý Giao Hàng Thất Bại}
   \label{tab:class-spec-uc06}
 \end{table}
+
+\subsubsection{Sơ Đồ Tuần Tự}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{so-do/sodo-tuantu/seq_fail_delivery.pdf}
+  \caption{Sơ đồ tuần tự chức năng Xử lý giao hàng thất bại}
+  \label{fig:seq-uc06}
+\end{figure}
 
 \subsection{Xác Nhận Nhận/Gửi Kiện Hàng Tại Trạm}
 
@@ -535,7 +580,7 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
 \subsubsection{Sơ Đồ Tuần Tự}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{so-do/sodo-tuantu/Xác Nhận Nhận_Gửi Kiện Hàng Tại Trạm.drawio.pdf}
+  \includegraphics[width=\textwidth]{so-do/sodo-tuantu/seq_station_check.pdf}
   \caption{Sơ đồ tuần tự chức năng Xác nhận nhận và gửi kiện hàng tại trạm}
   \label{fig:seq-uc07}
 \end{figure}
@@ -573,7 +618,7 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
 \subsubsection{Sơ Đồ Tuần Tự}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{so-do/sodo-tuantu/Theo Dõi Giao Hàng Thời Gian Thực.drawio.pdf}
+  \includegraphics[width=\textwidth]{so-do/sodo-tuantu/seq_tracking_realtime.pdf}
   \caption{Sơ đồ tuần tự chức năng Theo dõi giao hàng thời gian thực}
   \label{fig:seq-uc08}
 \end{figure}
@@ -615,7 +660,7 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
 \subsubsection{Sơ Đồ Tuần Tự}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{so-do/sodo-tuantu/Xác Nhận Giao Hàng Thành Công.drawio.pdf}
+  \includegraphics[width=\textwidth]{so-do/sodo-tuantu/seq_success_delivery.pdf}
   \caption{Sơ đồ tuần tự chức năng Xác nhận giao hàng thành công}
   \label{fig:seq-uc09}
 \end{figure}
@@ -626,7 +671,7 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.85\textwidth]{diagrams/sodolop/UC10_UocLuongETA.png}
-  \caption{Sơ đồ lớp chức năng Ước lượng thời gian giao hàng dự kiến (ETA)}
+  \caption{Sơ đồ lớp chức năng Ước lượng thời gian giao hàng dự kiến}
   \label{fig:class-uc10}
 \end{figure}
 
@@ -638,7 +683,7 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
     \hline
     \textbf{STT} & \textbf{Tên lớp} & \textbf{Thuộc tính / Phương thức} & \textbf{Mô tả} \\
     \hline
-    1 & \texttt{Dieu\allowbreak Khien\allowbreak Uoc\allowbreak Luong} & \texttt{lay\allowbreak Thoi\allowbreak Gian\allowbreak Du\allowbreak Kien\allowbreak (ma\allowbreak Don\allowbreak Hang)} & REST API controller tiếp nhận yêu cầu tính toán thời gian đến (ETA). \\ \hline
+    1 & \texttt{Dieu\allowbreak Khien\allowbreak Uoc\allowbreak Luong} & \texttt{lay\allowbreak Thoi\allowbreak Gian\allowbreak Du\allowbreak Kien\allowbreak (ma\allowbreak Don\allowbreak Hang)} & REST API controller tiếp nhận yêu cầu tính toán thời gian đến dự kiến. \\ \hline
     2 & \texttt{Dich\allowbreak Vu\allowbreak Uoc\allowbreak Luong} & \texttt{tinh\allowbreak Thoi\allowbreak Gian\allowbreak Du\allowbreak Kien\allowbreak (ma\allowbreak Tram,\allowbreak ma\allowbreak Dia\allowbreak Chi)},\newline \texttt{- tinh\allowbreak Khoang\allowbreak Cach\allowbreak (vd1,\allowbreak kd1,\allowbreak vd2,\allowbreak kd2)} & Dịch vụ tính toán khoảng cách địa lý và quy đổi ra số phút bay ước lượng. \\ \hline
     3 & \texttt{Kho\allowbreak Du\allowbreak Lieu\allowbreak Tram\allowbreak Ha\allowbreak Canh} & \texttt{tim\allowbreak Theo\allowbreak Ma\allowbreak (ma)} & Interface Repository truy vấn thông tin tọa độ của trạm hạ cánh drone. \\ \hline
     4 & \texttt{Kho\allowbreak Du\allowbreak Lieu\allowbreak Dia\allowbreak Chi} & \texttt{tim\allowbreak Theo\allowbreak Ma\allowbreak (ma)} & Interface Repository truy vấn tọa độ điểm đến của khách hàng. \\ \hline
@@ -651,13 +696,21 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
   \label{tab:class-spec-uc10}
 \end{table}
 
-\subsection{Trợ Lý AI Cho Khách Hàng (Chatbot)}
+\subsubsection{Sơ Đồ Tuần Tự}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{so-do/sodo-tuantu/seq_eta_estimation.pdf}
+  \caption{Sơ đồ tuần tự chức năng Ước lượng thời gian giao hàng dự kiến}
+  \label{fig:seq-uc10}
+\end{figure}
+
+\subsection{Trợ Lý AI Cho Khách Hàng}
 
 \subsubsection{Sơ Đồ Lớp}
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.85\textwidth]{diagrams/sodolop/UC11_ChatbotAI.png}
-  \caption{Sơ đồ lớp chức năng Trợ lý AI cho khách hàng (Chatbot)}
+  \caption{Sơ đồ lớp chức năng Trợ lý AI cho khách hàng}
   \label{fig:class-uc11}
 \end{figure}
 
@@ -673,16 +726,24 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
     2 & \texttt{Dich\allowbreak Vu\allowbreak Tro\allowbreak Ly\allowbreak Hang} & \texttt{tra\allowbreak Loi\allowbreak Cau\allowbreak Hoi\allowbreak (ma\allowbreak Kh,\allowbreak cau\allowbreak Hoi)},\newline \texttt{- tra\allowbreak Cuu\allowbreak Thong\allowbreak Tin\allowbreak Giao\allowbreak Hang\allowbreak (ma\allowbreak Kh)},\newline \texttt{- goi\allowbreak Dich\allowbreak Vu\allowbreak Mo\allowbreak Hinh\allowbreak Ngon\allowbreak Ngu\allowbreak (loi\allowbreak Nhac)} & Dịch vụ tập hợp ngữ cảnh đơn hàng của khách và gửi yêu cầu tới LLM API. \\ \hline
     3 & \texttt{Kho\allowbreak Du\allowbreak Lieu\allowbreak Tin\allowbreak Nhan\allowbreak Chatbot} & \texttt{luu\allowbreak (tin\allowbreak Nhan)} & Interface Repository lưu lịch sử trò chuyện vào CSDL. \\ \hline
     4 & \texttt{Kho\allowbreak Du\allowbreak Lieu\allowbreak Don\allowbreak Hang} & \texttt{tim\allowbreak Theo\allowbreak Ma\allowbreak Khach\allowbreak Hang\allowbreak (ma\allowbreak Kh)} & Interface Repository truy vấn thông tin đơn hàng hiện tại phục vụ làm context. \\ \hline
-    5 & \texttt{Khach\allowbreak Hang\allowbreak Mo\allowbreak Hinh\allowbreak Ngon\allowbreak Ngu} & \texttt{tao\allowbreak Phan\allowbreak Hoi\allowbreak (loi\allowbreak Nhac)} & Interface giao tiếp với mô hình ngôn ngữ lớn bên ngoài (Gemini/Groq API). \\ \hline
+    5 & \texttt{Khach\allowbreak Hang\allowbreak Mo\allowbreak Hinh\allowbreak Ngon\allowbreak Ngu} & \texttt{tao\allowbreak Phan\allowbreak Hoi\allowbreak (loi\allowbreak Nhac)} & Interface giao tiếp với mô hình ngôn ngữ lớn bên ngoài như Gemini hoặc Groq API. \\ \hline
     6 & \texttt{Yeu\allowbreak Cau\allowbreak Tro\allowbreak Chuyen} & \texttt{cau\allowbreak Hoi} & DTO đóng gói câu hỏi đầu vào của khách hàng gửi cho chatbot. \\ \hline
     7 & \texttt{Phan\allowbreak Hoi\allowbreak Tro\allowbreak Chuyen} & \texttt{tra\allowbreak Loi} & DTO chứa câu trả lời định dạng văn bản nhận được từ LLM. \\ \hline
     8 & \texttt{Tin\allowbreak Nhan\allowbreak Chatbot} & \texttt{ma\allowbreak Tin\allowbreak Nhan}, \texttt{noi\allowbreak Dung}, \texttt{phan\allowbreak Hoi} & Thực thể lưu trữ cặp câu hỏi - câu trả lời trong lịch sử chatbot. \\ \hline
     9 & \texttt{Don\allowbreak Hang} & \texttt{ma\allowbreak Don\allowbreak Hang}, \texttt{trang\allowbreak Thai} & Thực thể đơn hàng đóng vai trò làm dữ liệu ngữ cảnh cho chatbot. \\
     \hline
   \end{tabularx}
-  \caption{Đặc tả các lớp chức năng Trợ Lý AI Cho Khách Hàng (Chatbot)}
+  \caption{Đặc tả các lớp chức năng Trợ Lý AI Cho Khách Hàng}
   \label{tab:class-spec-uc11}
 \end{table}
+
+\subsubsection{Sơ Đồ Tuần Tự}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{so-do/sodo-tuantu/seq_chatbot.pdf}
+  \caption{Sơ đồ tuần tự chức năng Trợ lý AI cho khách hàng}
+  \label{fig:seq-uc11}
+\end{figure}
 
 \subsection{Tạo và Quản Lý Tài Khoản Người Dùng}
 
@@ -716,6 +777,14 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
   \caption{Đặc tả các lớp chức năng Tạo và Quản Lý Tài Khoản Người Dùng}
   \label{tab:class-spec-uc12}
 \end{table}
+
+\subsubsection{Sơ Đồ Tuần Tự}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{so-do/sodo-tuantu/seq_manage_user.pdf}
+  \caption{Sơ đồ tuần tự chức năng Tạo và quản lý tài khoản người dùng}
+  \label{fig:seq-uc12}
+\end{figure}
 
 \subsection{Quản Lý Thiết Bị Drone}
 
@@ -751,7 +820,7 @@ Hệ thống \texttt{SmartDroneDelivery} được xây dựng theo mô hình ki�
 \subsubsection{Sơ Đồ Tuần Tự}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{so-do/sodo-tuantu/Quản lý thiết bị Drone.png}
+  \includegraphics[width=\textwidth]{so-do/sodo-tuantu/seq_manage_drone.pdf}
   \caption{Sơ đồ tuần tự chức năng Quản lý thiết bị Drone}
   \label{fig:seq-uc13}
 \end{figure}

@@ -10,7 +10,7 @@
     \hline
     \textbf{Hạng mục} & \textbf{Nội dung} \\
     \hline
-    Thời gian thực hiện & 8 tuần (từ [23/07/2026] đến [20/09/2026]) \\ \hline
+    Thời gian thực hiện & 8 tuần, từ ngày 23/07/2026 đến ngày 20/09/2026, \\ \hline
     Số lượng thành viên & 5 người \\ \hline
     Phương pháp phát triển & Scrum - 6 Sprint, mỗi Sprint kéo dài 1 tuần \\ \hline
     Số module chính & 5 phân hệ chính gồm Customer và Order, Package và Workflow, Landing Station, Tracking và Confirmation, và Dashboard và AI \\ \hline
@@ -52,7 +52,7 @@
     1 & Thành viên chưa quen công nghệ mới như Supabase và LLM API & Cao & Cao & Dành đầu Sprint 1 để khảo sát/học nhanh, phân công người có kinh nghiệm hỗ trợ \\ \hline
     2 & Trễ tiến độ do khối lượng công việc lớn & Cao & Cao & Ưu tiên use case Tầng 1 theo Phần D kế hoạch, cắt giảm tính năng phụ nếu cần \\ \hline
     3 & Xung đột code khi nhiều người cùng sửa 1 module & Trung bình & Trung bình & Áp dụng Git branching strategy, bắt buộc Pull Request + review \\ \hline
-    4 & Giới hạn free tier của Supabase/LLM API không đủ khi demo & Thấp & Trung bình & Kiểm tra giới hạn từ Sprint 1, có phương án dự phòng (tài khoản backup) \\ \hline
+    4 & Giới hạn free tier của Supabase/LLM API không đủ khi demo & Thấp & Trung bình & Kiểm tra giới hạn từ Sprint 1, có phương án dự phòng bằng tài khoản backup \\ \hline
     5 & Thành viên vắng mặt hoặc bị ốm giữa deadline gấp & Thấp & Cao & Daily standup để phát hiện sớm, chia sẻ kiến thức chéo giữa các thành viên \\ \hline
     6 & Thiếu thời gian viết tài liệu do dồn vào cuối kỳ & Cao & Cao & Viết tài liệu song song mỗi Sprint theo nguyên tắc đã thống nhất và không dồn vào cuối kỳ \\
     \hline
@@ -71,9 +71,9 @@
     \hline
     \textbf{Hoạt động} & \textbf{Tần suất} & \textbf{Nội dung} \\
     \hline
-    Sprint Planning & Đầu mỗi Sprint (Thứ 6) & Chốt mục tiêu Sprint, phân công task \\ \hline
+    Sprint Planning & Đầu mỗi Sprint vào thứ Sáu & Chốt mục tiêu Sprint, phân công task \\ \hline
     Daily Standup & Hàng ngày, 10-15 phút & Mỗi người báo cáo: công việc hôm qua, công việc hôm nay và các khó khăn vướng mắc \\ \hline
-    Sprint Review & Cuối mỗi Sprint (Thứ Ba hoặc Thứ Tư) & Demo kết quả đã làm được trong Sprint \\ \hline
+    Sprint Review & Cuối mỗi Sprint vào thứ Ba hoặc thứ Tư & Demo kết quả đã làm được trong Sprint \\ \hline
     Sprint Retrospective & Sau Sprint Review & Rút kinh nghiệm, điều chỉnh cách làm cho Sprint sau \\
     \hline
   \end{tabularx}
@@ -109,7 +109,7 @@
     \hline
     1 & Ứng dụng Web dành cho Điều phối viên, Quản lý, Quản trị viên, Khách hàng và Nhân viên vận hành trạm & Mã nguồn + link demo \\ \hline
     2 & Bộ API RESTful & Mã nguồn + tài liệu API \\ \hline
-    3 & Cơ sở dữ liệu (Supabase) & Schema + dữ liệu mẫu \\ \hline
+    3 & Cơ sở dữ liệu Supabase & Schema + dữ liệu mẫu \\ \hline
     4 & Dịch vụ AI tích hợp bao gồm tính năng ước lượng thời gian giao hàng, tóm tắt và chatbot & Mã nguồn tích hợp LLM API \\ \hline
     5 & Báo cáo dự án đầy đủ gồm 6 chương & File LaTeX + PDF \\ \hline
     6 & Mã nguồn toàn bộ hệ thống & Git repository \\ \hline
@@ -168,8 +168,8 @@
     \hline
     Công cụ & Git cùng GitHub hoặc GitLab \\ \hline
     Nhánh chính & \texttt{main} (ổn định, chỉ merge từ \texttt{dev} sau khi test) \\ \hline
-    Nhánh phát triển & \texttt{dev} (tích hợp code các thành viên) \\ \hline
-    Nhánh tính năng & \texttt{feature/<tên-task>} (mỗi task 1 nhánh riêng) \\ \hline
+    Nhánh phát triển & \texttt{dev} tích hợp code của các thành viên \\ \hline
+    Nhánh tính năng & \texttt{feature/<tên-task>} cho từng task riêng \\ \hline
     Quy tắc merge & Bắt buộc Pull Request, ít nhất 1 người review trước khi merge \\ \hline
     Quy tắc commit message & Gắn mã task Jira, vd: \texttt{CNPM-15: [M1] add order API} \\
     \hline
