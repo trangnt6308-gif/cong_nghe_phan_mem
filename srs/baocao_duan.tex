@@ -1,4 +1,4 @@
-   % !TEX program = xelatex
+%!TEX program = xelatex
 % ============================================================
 %  BAO CAO DO AN TOT NGHIEP - KHUNG MAIN LIEN KET (TIENG VIET)
 %  Bien dich: XeLaTeX
@@ -18,7 +18,6 @@
 % -- Goi tien ich --------------------------------------------
 \usepackage{geometry}
 \usepackage{graphicx}
-\usepackage{hyperref}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -35,6 +34,7 @@
 \usepackage{float}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{hyperref}
 
 
 % -- Le trang ------------------------------------------------
@@ -78,6 +78,27 @@
 % -- Gian dong -----------------------------------------------
 \onehalfspacing
 
+% -- Dinh nghia lai \includegraphics de tranh crash khi thieu file anh ------------
+\usepackage{letltxmacro}
+\LetLtxMacro\oldincludegraphics\includegraphics
+\newcommand{\IfFileExistsInGraphics}[3]{%
+  \IfFileExists{#1}{#2}{%
+    \IfFileExists{./so-do/#1}{#2}{%
+      \IfFileExists{./chapters/#1}{#2}{#3}%
+    }%
+  }%
+}
+\renewcommand{\includegraphics}[2][]{%
+  \IfFileExistsInGraphics{#2}{%
+    \oldincludegraphics[#1]{#2}%
+  }{%
+    \begin{minipage}{\linewidth}
+      \centering
+      \framebox[0.9\linewidth]{\rule{0pt}{120pt} [Hình ảnh chưa xuất bản: \detokenize{#2}]}
+    \end{minipage}%
+  }%
+}
+
 % ============================================================
 \begin{document}
 
@@ -118,17 +139,9 @@
 % ============================================================
 \pagenumbering{roman}
 \tableofcontents
-\clearpage
-% \listoffigures   % Bo comment neu can danh sach hinh
-% \listoftables    % Bo comment neu can danh sach bang
-\clearpage
-
 % ============================================================
 % NOI DUNG CHINH - LIEN KET CAC FILE PHU TRONG THU MUC chapters/
 % ============================================================
-\pagenumbering{arabic}
-\setcounter{page}{1}
-
 % 1. Loi cam on
 \input{chapters/loicamon.tex}
 \clearpage
@@ -136,6 +149,12 @@
 % 2. Dinh nghia & viet tat
 \input{chapters/dinhnghia.tex}
 \clearpage
+
+% ============================================================
+% NOI DUNG CHINH - LIEN KET CAC FILE PHU TRONG THU MUC chapters/
+% ============================================================
+\pagenumbering{arabic}
+\setcounter{page}{1}
 
 % PHAN I: GIOI THIEU DU AN
 \input{chapters/phan1.tex}
