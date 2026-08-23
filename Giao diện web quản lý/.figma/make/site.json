@@ -1,0 +1,10 @@
+{
+  "description": "Streamline file management with an intuitive web interface designed for efficient organization and easy access, perfect for businesses and teams.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
