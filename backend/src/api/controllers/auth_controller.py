@@ -1,148 +1,196 @@
 from flask import Blueprint, request, jsonify, current_app
 from datetime import datetime, timedelta
-from infrastructure.models.user_model import UserModel
-from infrastructure.databases.mssql import session
-from api.schemas.auth import RigisterUserRequestSchema,RigisterUserResponseSchema
-from services.auth_service import AuthService
-from infrastructure.repositories.auth_repository import AuthRepository
-from hashlib import sha256
 import jwt
 from werkzeug.security import generate_password_hash, check_password_hash
+from infrastructure.databases.postgres import session
+from infrastructure.models.app_nguoi_dung_model import NguoiDungModel
+from infrastructure.models.app_vai_tro_model import VaiTroModel
+from api.schemas.auth import (
+    VaiTroRequestSchema, VaiTroResponseSchema,
+    NguoiDungRequestSchema, NguoiDungResponseSchema,
+    LoginUserRequestSchema, LoginUserResponseSchema
+)
+
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
-auth_service = AuthService(AuthRepository(session))
-register_request = RigisterUserRequestSchema()
-register_response = RigisterUserResponseSchema()
-@auth_bp.route('/check_router', methods=['GET'])
-def check_router():
+
+vai_tro_req = VaiTroRequestSchema()
+vai_tro_res = VaiTroResponseSchema()
+nguoi_dung_req = NguoiDungRequestSchema()
+nguoi_dung_res = NguoiDungResponseSchema()
+login_req = LoginUserRequestSchema()
+
+@auth_bp.route('/roles', methods=['GET'])
+def list_roles():
     """
-    Check router
+    Get all roles
     ---
     get:
-      summary: Check router health
+      summary: Get all system roles
       tags:
-        - Auth
+        - Authentication
       responses:
         200:
-          description: Router is working
+          description: List of roles
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
+                type: array
+                items:
+                  $ref: '#/components/schemas/VaiTroResponse'
     """
-    return jsonify({'message': 'Router is working!'}), 200
+    roles = session.query(VaiTroModel).all()
+    return jsonify(vai_tro_res.dump(roles, many=True)), 200
+
+@auth_bp.route('/roles', methods=['POST'])
+def create_role():
+    """
+    Create a new role
+    ---
+    post:
+      summary: Create a system role
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VaiTroRequest'
+      responses:
+        201:
+          description: Role created
+        400:
+          description: Invalid data or role exists
+    """
+    data = request.get_json()
+    errors = vai_tro_req.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    
+    existing = session.query(VaiTroModel).filter_by(ten_vai_tro=data['ten_vai_tro']).first()
+    if existing:
+        return jsonify({'error': 'Role already exists'}), 400
+    
+    role = VaiTroModel(ten_vai_tro=data['ten_vai_tro'])
+    session.add(role)
+    session.commit()
+    session.refresh(role)
+    return jsonify(vai_tro_res.dump(role)), 201
+
+@auth_bp.route('/users', methods=['GET'])
+def list_users():
+    """
+    Get all users
+    ---
+    get:
+      summary: List all users
+      tags:
+        - Authentication
+      responses:
+        200:
+          description: List of users
+    """
+    users = session.query(NguoiDungModel).all()
+    return jsonify(nguoi_dung_res.dump(users, many=True)), 200
+
+@auth_bp.route('/signup', methods=['POST'])
+def signup():
+    """
+    Register a new user
+    ---
+    post:
+      summary: Register user
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NguoiDungRequest'
+      responses:
+        201:
+          description: User registered successfully
+        400:
+          description: Invalid data
+    """
+    data = request.get_json()
+    errors = nguoi_dung_req.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    
+    existing = session.query(NguoiDungModel).filter_by(email=data['email']).first()
+    if existing:
+        return jsonify({'error': 'Email is already registered'}), 400
+        
+    role = session.query(VaiTroModel).filter_by(ma_vai_tro=data['ma_vai_tro']).first()
+    if not role:
+        return jsonify({'error': 'Role not found'}), 400
+
+    hashed_pw = generate_password_hash(data['mat_khau'])
+    user = NguoiDungModel(
+        ma_vai_tro=data['ma_vai_tro'],
+        ho_ten=data['ho_ten'],
+        email=data['email'],
+        so_dien_thoai=data.get('so_dien_thoai'),
+        mat_khau_hash=hashed_pw
+    )
+    session.add(user)
+    session.commit()
+    session.refresh(user)
+    return jsonify(nguoi_dung_res.dump(user)), 201
 
 @auth_bp.route('/login', methods=['POST'])
 def login():
     """
-    Login user
+    User login
     ---
     post:
-      summary: Login user
+      summary: Authenticate user
+      tags:
+        - Authentication
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/LoginUserRequest'
-      tags:
-        - Auth
       responses:
         200:
-          description: Successful login
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginUserResponse'
+          description: Successful authentication
         401:
           description: Invalid credentials
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
     """
     data = request.get_json()
-    username=data['username'],
-    password=data['password']
-    password = generate_password_hash(password)
-    user = auth_service.login(username, password)
-    if not user:
-        return jsonify({'error': 'Invalid credentials'}), 401
-
+    errors = login_req.validate(data)
+    if errors:
+        return jsonify(errors), 400
+    
+    user = session.query(NguoiDungModel).filter_by(email=data['email']).first()
+    if not user or not check_password_hash(user.mat_khau_hash, data['password']):
+        return jsonify({'error': 'Invalid email or password'}), 401
+    
     payload = {
-        'user_id': user.id,
+        'user_id': str(user.ma_nguoi_dung),
         'exp': datetime.utcnow() + timedelta(hours=2)
     }
-    token = jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm='HS256')
-    return jsonify({'token': token})
+    token = jwt.encode(payload, current_app.config.get('SECRET_KEY', 'default_secret_key'), algorithm='HS256')
+    return jsonify({
+        'user': nguoi_dung_res.dump(user),
+        'token': token
+    }), 200
 
-
-@auth_bp.route('/signup', methods=['POST'])
-def register():
+@auth_bp.route('/logout', methods=['POST'])
+def logout():
     """
-    Register a new user
+    Log out user
     ---
     post:
-      summary: Register a new user
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RigisterUserRequest'
+      summary: Log out from the system
       tags:
-        - Auth
+        - Authentication
       responses:
-        201:
-          description: User registered successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RigisterUserResponse'
-        400:
-          description: Invalid input or user exists
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
+        200:
+          description: Logged out successfully
     """
-    data = request.get_json()
-    errors = register_request.validate(data)
-    if errors:
-      return jsonify(errors), 400
-    # Lay thong tin tu nguoi dung truyen vao
-
-    # Support JSON body and avoid KeyError by using .get()
-    username = data.get('username') if isinstance(data, dict) else None
-    password = data.get('password') if isinstance(data, dict) else None
-    passwordconfirm = data.get('passwordconfirm') if isinstance(data, dict) else None
-    email = data.get('email') if isinstance(data, dict) else None
-
-    if not username or not password or not passwordconfirm or not email:
-      return jsonify({'message': 'Missing required fields: username, password, passwordconfirm, email'}), 400
-
-    if password != passwordconfirm:
-      return jsonify({'message': 'Passwords do not match'}), 400
-
-    if auth_service.check_exist(username):
-      return jsonify({'message': 'User already exists. Please login.'}), 400
-    #  vieets theo kien truc clean architecture
-    # password_hashed = Str.encode()(password)
-    password_hashed =generate_password_hash(password)
-    new_user = auth_service.register(username, password_hashed, email)
-    if not new_user:
-      return jsonify({'message': 'Registration failed'}), 500 
-    result = register_response.dump(new_user)
-    return jsonify(result), 201
-
-    #     return redirect(url_for('login'))
-
-    # return render_template('register.html')
+    return jsonify({'message': 'Logged out successfully'}), 200
