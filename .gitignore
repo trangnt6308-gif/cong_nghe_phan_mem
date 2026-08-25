@@ -33,7 +33,7 @@ Thumbs.db
 *.log
 *.out
 *.toc
-*.synctex.gz
+*.synctex*
 *.fls
 *.fdb_latexmk
 *.pdfsync
