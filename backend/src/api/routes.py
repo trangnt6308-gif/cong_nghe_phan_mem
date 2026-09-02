@@ -6,6 +6,7 @@ from api.controllers.drone_controller import drone_bp
 from api.controllers.station_controller import station_bp
 from api.controllers.delivery_controller import delivery_bp
 from api.controllers.notification_controller import notification_bp
+from api.controllers.report_controller import report_bp
 
 def register_routes(app):
     app.register_blueprint(auth_bp)
@@ -16,3 +17,4 @@ def register_routes(app):
     app.register_blueprint(station_bp)
     app.register_blueprint(delivery_bp)
     app.register_blueprint(notification_bp)
+    app.register_blueprint(report_bp)

@@ -194,3 +194,58 @@ def logout():
           description: Logged out successfully
     """
     return jsonify({'message': 'Logged out successfully'}), 200
+
+@auth_bp.route('/change-password', methods=['POST'])
+def change_password():
+    """
+    Change user password
+    ---
+    post:
+      summary: Change password
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - current_password
+                - new_password
+              properties:
+                email:
+                  type: string
+                current_password:
+                  type: string
+                new_password:
+                  type: string
+      responses:
+        200:
+          description: Password updated successfully
+        400:
+          description: Missing required fields
+        401:
+          description: Invalid current password
+        404:
+          description: User not found
+    """
+    data = request.get_json()
+    email = data.get('email')
+    current_pw = data.get('current_password')
+    new_pw = data.get('new_password')
+    
+    if not email or not current_pw or not new_pw:
+        return jsonify({'error': 'Missing required fields'}), 400
+        
+    user = session.query(NguoiDungModel).filter_by(email=email).first()
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+        
+    if not check_password_hash(user.mat_khau_hash, current_pw):
+        return jsonify({'error': 'Mật khẩu hiện tại không chính xác'}), 401
+        
+    user.mat_khau_hash = generate_password_hash(new_pw)
+    session.commit()
+    return jsonify({'message': 'Cập nhật mật khẩu mới thành công.'}), 200

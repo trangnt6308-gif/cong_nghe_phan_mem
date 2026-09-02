@@ -2,6 +2,10 @@ from flask import Blueprint, request, jsonify
 from infrastructure.repositories.notification_repository import NotificationRepository
 from services.notification_service import NotificationService
 from api.schemas.notification import ThongBaoRequestSchema, ThongBaoResponseSchema
+from infrastructure.databases.postgres import session
+from infrastructure.models.app_don_hang_model import DonHangModel
+from infrastructure.models.app_giao_hang_model import GiaoHangModel
+from infrastructure.models.app_nguoi_dung_model import NguoiDungModel
 
 notification_bp = Blueprint('notification', __name__, url_prefix='/notifications')
 
@@ -130,3 +134,59 @@ def delete_notification(ma_thong_bao):
     if not success:
         return jsonify({'error': 'Notification not found'}), 404
     return '', 204
+
+
+@notification_bp.route('/activity-log', methods=['GET'])
+def get_activity_log():
+    """
+    Get system activity log (audit log)
+    ---
+    get:
+      summary: Get recent system activity events from orders and deliveries
+      tags:
+        - Notifications
+      responses:
+        200:
+          description: Activity log list
+    """
+    logs = []
+
+    # Lấy 30 đơn hàng cập nhật gần nhất
+    orders = (
+        session.query(DonHangModel)
+        .order_by(DonHangModel.ngay_cap_nhat.desc())
+        .limit(30)
+        .all()
+    )
+    for o in orders:
+        logs.append({
+            'id': str(o.ma_don_hang),
+            'time': o.ngay_cap_nhat.strftime('%Y-%m-%d %H:%M:%S') if o.ngay_cap_nhat else '',
+            'user': 'Hệ thống',
+            'action': f'Đơn hàng → {o.trang_thai_don_hang}',
+            'target': f'Đơn #{str(o.ma_don_hang)[:8]}',
+            'ip': '127.0.0.1',
+            'type': 'order'
+        })
+
+    # Lấy 20 chuyến giao hàng cập nhật gần nhất
+    deliveries = (
+        session.query(GiaoHangModel)
+        .order_by(GiaoHangModel.updated_at.desc())
+        .limit(20)
+        .all()
+    )
+    for d in deliveries:
+        logs.append({
+            'id': str(d.ma_giao_hang),
+            'time': d.updated_at.strftime('%Y-%m-%d %H:%M:%S') if d.updated_at else '',
+            'user': 'Hệ thống',
+            'action': f'Giao hàng → {d.trang_thai_giao_hang}',
+            'target': f'Chuyến #{str(d.ma_giao_hang)[:8]}',
+            'ip': '127.0.0.1',
+            'type': 'delivery'
+        })
+
+    # Sắp xếp theo thời gian mới nhất
+    logs.sort(key=lambda x: x['time'], reverse=True)
+    return jsonify(logs[:50]), 200
