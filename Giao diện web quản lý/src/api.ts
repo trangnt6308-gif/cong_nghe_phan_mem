@@ -1,7 +1,7 @@
 // ─── API Service Layer ────────────────────────────────────────────────────────
 // Kết nối với SmartDroneDelivery Backend (Flask, port 9999)
 
-const BASE_URL = 'http://localhost:9999'
+const BASE_URL = 'https://smartdronedelivery-api.onrender.com'
 
 // ─── Token helpers ────────────────────────────────────────────────────────────
 export function getToken(): string | null {
